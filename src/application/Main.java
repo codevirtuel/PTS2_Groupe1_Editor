@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
 	
-	public static int width = 1280;
-	public static int height = 720;
+	public static int width = 1920;
+	public static int height = 1080;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -19,7 +19,7 @@ public class Main extends Application {
 			VBox root = new VBox();
 
 			accueilController.primaryStage = primaryStage;
-			root = FXMLLoader.load(getClass().getResource("view/Editeur - Accueil.fxml"));
+			root = FXMLLoader.load(getClass().getResource("view/selectionnerTheme.fxml"));
 			Scene scene = new Scene(root,width,height);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
