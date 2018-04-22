@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
 	
-	public static int width = 1080;
+	public static int width = 1280;
 	public static int height = 720;
 	
 	@Override
