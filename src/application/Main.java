@@ -1,5 +1,6 @@
 package application;
 	
+import application.view.accueilController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -7,15 +8,24 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-
 public class Main extends Application {
+	
+	public static int width = 1280;
+	public static int height = 720;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			VBox root;
-			FXMLLoader rootLoader = new FXMLLoader(getClass().getResource("view/Editeur - Accueil.fxml"));
-			root=rootLoader.load();
-			Scene scene = new Scene(root,400,400);
+
+			VBox root = new VBox();
+
+			accueilController.primaryStage = primaryStage;
+			root = FXMLLoader.load(getClass().getResource("view/selectionnerTheme.fxml"));
+			Scene scene = new Scene(root,width,height);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			primaryStage.setResizable(false);
+
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
@@ -27,3 +37,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+//Coucou MAMENE
