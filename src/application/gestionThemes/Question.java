@@ -9,6 +9,7 @@ public class Question {
 	private String intitule;
 	
 	public Question(String intitule, List<Zone> zones) {
+		//A changer si necessaire
 		//reponses = new ArrayList<Zone>();
 		reponses = zones;
 		this.intitule = intitule;

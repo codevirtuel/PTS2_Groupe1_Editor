@@ -9,6 +9,7 @@ public class Theme {
 	private List<Zone> zones;
 	
 	public Theme() {
+		//A changer si necessaire
 		questions = new ArrayList<Question>();
 		zones = new ArrayList<Zone>();
 	}
