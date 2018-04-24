@@ -16,6 +16,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+
 			VBox root = new VBox();
 
 			accueilController.primaryStage = primaryStage;
@@ -24,6 +25,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setResizable(false);
+
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
@@ -35,3 +37,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+//Coucou MAMENE
