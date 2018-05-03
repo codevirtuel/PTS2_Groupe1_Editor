@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class accueilController {
+public class SelecThemeController {
 	
 	public static Stage primaryStage;
 	
@@ -16,5 +16,4 @@ public class accueilController {
 	public void initialize() {
 		Scaler.updateSize(Main.width,vbox);
 	}
-	
 }
