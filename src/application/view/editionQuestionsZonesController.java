@@ -5,8 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class editionCreationQuestionsController {
-
+public class editionQuestionsZonesController {
 	public static Stage primaryStage;
 	
 	@FXML
