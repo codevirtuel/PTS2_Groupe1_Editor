@@ -2,11 +2,10 @@ package application.view;
 
 import application.Main;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class selecThemeController {
+public class SelecThemeController {
 	
 	public static Stage primaryStage;
 	
