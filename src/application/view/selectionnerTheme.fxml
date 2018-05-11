@@ -30,7 +30,7 @@
       </ListView>
       <HBox alignment="CENTER" spacing="100.0">
          <children>
-            <Button fx:id="modifier" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Modifier" />
+            <Button fx:id="modifier" mnemonicParsing="false" onAction="#gotoEditTheme" prefHeight="50.0" prefWidth="100.0" text="Modifier" />
             <Button fx:id="supprimer" mnemonicParsing="false" onAction="#supprimerTheme" prefHeight="50.0" prefWidth="100.0" text="Supprimer" />
          </children>
          <VBox.margin>

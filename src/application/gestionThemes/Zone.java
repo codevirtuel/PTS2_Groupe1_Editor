@@ -21,4 +21,16 @@ public class Zone extends Polygon {
 		this.index = index;
 	}
 
+	public String toString() {
+		boolean paire = true;
+		String points = "";
+		for(int i=1; i<this.getPoints().size()/2; i++) {
+			points+=getPointData(i);
+		}
+		return "("+index+") - "+getPointData(0)+points;
+	}
+	public String getPointData(int i) {
+		return "("+this.getPoints().get(i*2)+" ; "+this.getPoints().get(i*2+1)+")";
+	}
+
 }

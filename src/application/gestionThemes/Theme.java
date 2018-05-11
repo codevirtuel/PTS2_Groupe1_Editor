@@ -3,11 +3,14 @@ package application.gestionThemes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.image.Image;
+
 public class Theme {
 	
 	private List<Question> questions;
 	private List<Zone> zones;
 	private String nom;
+	private Image imageFond;
 	
 	public String getNom() {
 		return nom;
@@ -43,6 +46,26 @@ public class Theme {
 	}
 	public void setZones(List<Zone> zones) {
 		this.zones = zones;
+	}
+	public List<Zone> getZonesWithIDs(List<Integer> liste) {
+		List<Zone> zones = new ArrayList<Zone> ();
+		for(Integer i : liste) {
+			Zone zone = getZoneWithID(i.intValue());
+			if(zone!=null)
+				zones.add(zone);
+		}
+		return zones;
+	}
+
+	private Zone getZoneWithID(int id) {
+		for(Zone zone : zones)
+			if(zone.getIndex()==id)
+				return zone;
+		return null;
+	}
+
+	public void setImageFond(Image img) {
+		imageFond=img;
 	}
 
 }

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
+import application.gestionThemes.Question;
 import application.gestionThemes.Theme;
+import application.gestionThemes.Zone;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -60,6 +62,43 @@ public class SelecThemeController {
 	@FXML
 	public void supprimerTheme() {
 		listeThemes.getItems().remove(listeThemes.getSelectionModel().getSelectedItem());
+	}
+	
+	@FXML
+	public void gotoEditTheme() {
+		Theme themeTmp = new Theme(listeThemes.getSelectionModel().getSelectedItem().getText());
+		List<Double> points = new ArrayList<Double>();
+		points.add(50.0);
+		points.add(20.0);
+		points.add(30.0);
+		points.add(40.0);
+		points.add(10.0);
+		points.add(60.0);
+		points.add(10.0);
+		points.add(20.0);
+		points.add(40.0);
+		points.add(40.0);
+		points.add(80.0);
+		points.add(60.0);
+		themeTmp.addZone(new Zone(1, points));
+		themeTmp.addZone(new Zone(3, points));
+		List<Integer> ids = new ArrayList<Integer> ();
+		ids.add(new Integer(1));
+		themeTmp.addQuestion(new Question("texte Question N°1 ... ?", themeTmp.getZonesWithIDs(ids)));
+		themeTmp.addQuestion(new Question("texte Question N°2 ... ?", new ArrayList<Zone>()));
+		editionQuestionsZonesController.setThemeAModifier(themeTmp);
+
+		editionQuestionsZonesController.primaryStage = primaryStage;
+		try {
+			VBox root = null;
+			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
+			Scene scene = new Scene(root,Main.width,Main.height);
+			primaryStage.setResizable(false);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
