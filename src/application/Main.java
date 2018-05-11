@@ -12,6 +12,7 @@ public class Main extends Application {
 
 	public static int width = 1280;
 	public static int height = 720;
+	public static final String POLICE="Roboto";
 
 	@Override
 	public void start(Stage primaryStage) {

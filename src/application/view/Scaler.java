@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -57,11 +58,20 @@ public class Scaler {
 		
 		if(obj instanceof Label) {
 			((Labeled) obj).setFont(new Font(((Labeled) obj).getFont().getSize()*factor));
-			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+			if(((Region) obj).getPrefWidth()>=0 && ((Region) obj).getPrefHeight()>=0)((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
 		}
 		else if(obj instanceof ImageView) {
 			((ImageView) obj).setFitHeight(((ImageView) obj).getFitHeight()*factor);
 			((ImageView) obj).setFitWidth(((ImageView) obj).getFitWidth()*factor);
+		}
+		else if(obj instanceof ListView) {
+			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+			if(!(((ListView) obj).getItems().size()<1) && ((ListView) obj).getItems().get(0) instanceof Node)
+			{
+				for(Object node : ((ListView) obj).getItems()) {
+					scale(((Node)node),factor);
+				}
+			}
 		}
 		else if(obj instanceof Button) {
 			((Button) obj).setFont(new Font(((Button) obj).getFont().getSize()*factor));

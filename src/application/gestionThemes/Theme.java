@@ -7,11 +7,21 @@ public class Theme {
 	
 	private List<Question> questions;
 	private List<Zone> zones;
+	private String nom;
 	
-	public Theme() {
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Theme(String nom) {
 		//A changer si necessaire
 		questions = new ArrayList<Question>();
 		zones = new ArrayList<Zone>();
+		this.nom = nom;
 	}
 	
 	public void addQuestion(Question question) {

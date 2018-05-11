@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: lightgray;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.SelecThemeController">
+<VBox fx:id="vbox" alignment="CENTER" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: lightgray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.SelecThemeController">
    <children>
       <Label alignment="CENTER" prefHeight="30.0" prefWidth="875.0" text="- Sélectionnez un thème -" textAlignment="CENTER">
          <font>
@@ -18,15 +23,15 @@
          <font>
             <Font size="15.0" />
          </font></Label>
-      <ListView prefHeight="200.0" prefWidth="200.0">
+      <ListView fx:id="listeThemes" onKeyReleased="#selectionTheme" onMouseClicked="#selectionTheme" prefHeight="200.0" prefWidth="200.0">
          <VBox.margin>
             <Insets bottom="30.0" left="20.0" right="20.0" top="40.0" />
          </VBox.margin>
       </ListView>
       <HBox alignment="CENTER" spacing="100.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Modifier" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Supprimer" />
+            <Button fx:id="modifier" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Modifier" />
+            <Button fx:id="supprimer" mnemonicParsing="false" onAction="#supprimerTheme" prefHeight="50.0" prefWidth="100.0" text="Supprimer" />
          </children>
          <VBox.margin>
             <Insets bottom="10.0" />
@@ -34,7 +39,7 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT">
          <children>
-            <Button fx:id="quitter" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Annuler" textFill="WHITE">
+            <Button fx:id="quitter" mnemonicParsing="false" onAction="#annuler" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Annuler" textFill="WHITE">
                <HBox.margin>
                   <Insets right="40.0" />
                </HBox.margin>
