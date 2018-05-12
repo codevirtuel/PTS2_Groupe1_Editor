@@ -1,5 +1,7 @@
 package application.view;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class editionQuestionsZonesController {
@@ -52,9 +57,12 @@ public class editionQuestionsZonesController {
 	Button modifierZone;
 	@FXML
 	Button supprimerZone;
+	@FXML
+	TextField titreTheme;
 	
 	@FXML
 	public void initialize() {
+		titreTheme.setText(themeAModifier.getNom());
 		modifierQuestion.setDisable(true);
 		supprimerQuestion.setDisable(true);
 		modifierZone.setDisable(true);
@@ -76,6 +84,50 @@ public class editionQuestionsZonesController {
 			System.out.println(zone.toString()+" "+listeZones.getItems().size());
 		}
 		Scaler.updateSize(Main.width,vbox);
+	}
+
+	@FXML
+	public void changerImage() throws IOException {
+		FileChooser explorateur = new FileChooser();
+		explorateur.setTitle("Changer l'image de fond");
+		List<String> extensions = new ArrayList<String>();
+		extensions.add("*.png");
+		extensions.add("*.jpg");
+		extensions.add("*.jpeg");
+		extensions.add("*.bmp");
+		explorateur.getExtensionFilters().add(new ExtensionFilter("Toutes les images ...", extensions));
+		File image = explorateur.showOpenDialog(primaryStage);
+		if(image!=null)themeAModifier.setImageFond(new Image(new FileInputStream(image.getAbsolutePath())));
+	}
+	
+	@FXML
+	public void selectionQuestion() {
+		if(listeQuestions.getSelectionModel().getSelectedItem()!=null) {
+			modifierQuestion.setDisable(false);
+			supprimerQuestion.setDisable(false);
+		}
+	}
+	
+	@FXML
+	public void gotoEditQuestion() {
+		Question qSelect=null;
+		for(Question question : themeAModifier.getQuestions())
+			if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+				qSelect=question;
+		System.out.println(qSelect+" : "+qSelect.getIntitule());
+		editionCreationQuestionsController.setQuestion(qSelect);
+
+		editionCreationQuestionsController.primaryStage = primaryStage;
+		try {
+			VBox root = null;
+			root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
+			Scene scene = new Scene(root,Main.width,Main.height);
+			primaryStage.setResizable(false);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML

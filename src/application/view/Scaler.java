@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -26,8 +27,10 @@ import javafx.scene.text.Text;
 
 public class Scaler {
 	
+	private static final double DEFAUT_WIDTH=640;
+	
 	public static void updateSize(double newWidth,Pane root) {		
-		double factor = newWidth/640;
+		double factor = newWidth/DEFAUT_WIDTH;
 		ArrayList<Node> nodes = getAllNodes(root);
 		for(Node node : nodes) {
 			scale(node,factor);
@@ -69,7 +72,10 @@ public class Scaler {
 			if(!(((ListView) obj).getItems().size()<1) && ((ListView) obj).getItems().get(0) instanceof Node)
 			{
 				for(Object node : ((ListView) obj).getItems()) {
-					scale(((Node)node),factor);
+					if(node instanceof Pane)
+						updateSize(factor*DEFAUT_WIDTH, ((Pane)node));
+					else
+						scale(((Node)node),factor);
 				}
 			}
 		}
@@ -84,6 +90,10 @@ public class Scaler {
 		else if(obj instanceof TextField) {
 			((TextField) obj).setFont(new Font(((TextField) obj).getFont().getSize()*factor));
 			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+		}
+		else if(obj instanceof Polygon) {
+			for(Double coordonnee : ((Polygon)obj).getPoints())
+				coordonnee = new Double(coordonnee.doubleValue()*factor);
 		}
 		else{
 			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);

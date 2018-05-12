@@ -20,4 +20,11 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/application/view/croixrouge.jpg</name>
+			<type>1</type>
+			<location>C:/Users/DAUDIN/Pictures/croixrouge.jpg</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -67,5 +67,8 @@ public class Theme {
 	public void setImageFond(Image img) {
 		imageFond=img;
 	}
+	public Image getImageFond() {
+		return imageFond;
+	}
 
 }
