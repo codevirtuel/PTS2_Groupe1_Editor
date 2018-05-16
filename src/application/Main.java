@@ -1,5 +1,9 @@
 package application;
 
+import java.sql.SQLException;
+
+import application.database.Connect;
+
 import application.view.AccueilController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +40,13 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+		try {
+			new Connect("~/BaseDD", "user", "");
+			System.out.println("co r�ussie");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 //Coucou MAMENE
