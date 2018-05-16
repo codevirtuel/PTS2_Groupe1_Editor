@@ -27,4 +27,21 @@ public class ItemListZone extends HBox {
 		this.getChildren().add(zoneToString);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemListZone other = (ItemListZone) obj;
+		if (zone == null) {
+			if (other.zone != null)
+				return false;
+		} else if (!zone.equals(other.zone))
+			return false;
+		return true;
+	}
+
 }

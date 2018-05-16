@@ -58,6 +58,8 @@ public class editionQuestionsZonesController {
 	@FXML
 	Button supprimerZone;
 	@FXML
+	Button changerImage;
+	@FXML
 	TextField titreTheme;
 	
 	@FXML
@@ -67,8 +69,13 @@ public class editionQuestionsZonesController {
 		supprimerQuestion.setDisable(true);
 		modifierZone.setDisable(true);
 		supprimerZone.setDisable(true);
+		Label lblTheme = new Label("Aucune ...");
+		lblTheme.setAlignment(Pos.CENTER);
+		lblTheme.setTextAlignment(TextAlignment.CENTER);
+		lblTheme.setFont(Font.font(Main.POLICE,12));
+		listeQuestions.getItems().add(lblTheme);
 		for(Question question : themeAModifier.getQuestions()) {
-			Label lblTheme = new Label(question.getIntitule());
+			lblTheme = new Label(question.getIntitule());
 			lblTheme.setAlignment(Pos.CENTER);
 			lblTheme.setTextAlignment(TextAlignment.CENTER);
 			lblTheme.setFont(Font.font(Main.POLICE,12));
@@ -76,7 +83,7 @@ public class editionQuestionsZonesController {
 			System.out.println(question.getIntitule()+" "+listeQuestions.getItems().size());
 		}
 		for(Zone zone : themeAModifier.getZones()) {
-			Label lblTheme = new Label(zone.toString());
+			lblTheme = new Label(zone.toString());
 			lblTheme.setAlignment(Pos.CENTER);
 			lblTheme.setTextAlignment(TextAlignment.CENTER);
 			lblTheme.setFont(Font.font(Main.POLICE,12));
@@ -102,32 +109,68 @@ public class editionQuestionsZonesController {
 	
 	@FXML
 	public void selectionQuestion() {
-		if(listeQuestions.getSelectionModel().getSelectedItem()!=null) {
+		if(listeQuestions.getSelectionModel().getSelectedItem()!=null &&
+				!listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
 			modifierQuestion.setDisable(false);
 			supprimerQuestion.setDisable(false);
+			for(Question question : themeAModifier.getQuestions())
+				if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+					setListeZonesWithQuestion(question);
+		}
+		else if(listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
+			setListeZonesWithQuestion(null);
+			modifierQuestion.setDisable(true);
+			supprimerQuestion.setDisable(true);
 		}
 	}
 	
+	private void setListeZonesWithQuestion(Question question) {
+		Font fontLbl = listeQuestions.getSelectionModel().getSelectedItem().getFont();
+		listeZones.getItems().clear();
+		if(question!=null)
+			for(Zone zone : question.getReponses()) {
+				Label lblTheme = new Label(zone.toString());
+				lblTheme.setAlignment(Pos.CENTER);
+				lblTheme.setTextAlignment(TextAlignment.CENTER);
+				lblTheme.setFont(fontLbl);
+				listeZones.getItems().add(lblTheme);
+				System.out.println(zone.toString()+" "+listeZones.getItems().size());
+			}
+		else
+			for(Zone zone : themeAModifier.getZones()) {
+				Label lblTheme = new Label(zone.toString());
+				lblTheme.setAlignment(Pos.CENTER);
+				lblTheme.setTextAlignment(TextAlignment.CENTER);
+				lblTheme.setFont(fontLbl);
+				listeZones.getItems().add(lblTheme);
+				System.out.println(zone.toString()+" "+listeZones.getItems().size());
+			}
+	}
+
 	@FXML
 	public void gotoEditQuestion() {
-		Question qSelect=null;
-		for(Question question : themeAModifier.getQuestions())
-			if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
-				qSelect=question;
-		System.out.println(qSelect+" : "+qSelect.getIntitule());
-		editionCreationQuestionsController.setQuestion(qSelect);
-
-		editionCreationQuestionsController.primaryStage = primaryStage;
-		try {
-			VBox root = null;
-			root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
-			Scene scene = new Scene(root,Main.width,Main.height);
-			primaryStage.setResizable(false);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(themeAModifier.getImageFond()!=null) {
+			Question qSelect=null;
+			for(Question question : themeAModifier.getQuestions())
+				if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+					qSelect=question;
+			System.out.println(qSelect+" : "+qSelect.getIntitule());
+			editionCreationQuestionsController.setQuestion(qSelect);
+	
+			editionCreationQuestionsController.primaryStage = primaryStage;
+			try {
+				VBox root = null;
+				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
+				Scene scene = new Scene(root,Main.width,Main.height);
+				primaryStage.setResizable(false);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		else
+			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
 	}
 	
 	@FXML

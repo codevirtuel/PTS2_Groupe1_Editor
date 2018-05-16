@@ -68,6 +68,7 @@ public class SelecThemeController {
 	public void gotoEditTheme() {
 		Theme themeTmp = new Theme(listeThemes.getSelectionModel().getSelectedItem().getText());
 		List<Double> points = new ArrayList<Double>();
+		List<Double> points2 = new ArrayList<Double>();
 		points.add(50.0);
 		points.add(20.0);
 		points.add(30.0);
@@ -76,12 +77,14 @@ public class SelecThemeController {
 		points.add(60.0);
 		points.add(10.0);
 		points.add(20.0);
-		points.add(40.0);
-		points.add(40.0);
-		points.add(80.0);
-		points.add(60.0);
+		points2.add(90.0);
+		points2.add(80.0);
+		points2.add(40.0);
+		points2.add(80.0);
+		points2.add(80.0);
+		points2.add(60.0);
 		themeTmp.addZone(new Zone(1, points));
-		themeTmp.addZone(new Zone(3, points));
+		themeTmp.addZone(new Zone(3, points2));
 		List<Integer> ids = new ArrayList<Integer> ();
 		ids.add(new Integer(1));
 		themeTmp.addQuestion(new Question("texte Question N°1 ... ?", themeTmp.getZonesWithIDs(ids)));

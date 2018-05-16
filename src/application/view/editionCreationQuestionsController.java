@@ -92,8 +92,10 @@ public class editionCreationQuestionsController {
 	private void addZone(MouseEvent e) {
 		if(e.getTarget() instanceof Zone) {
 			ItemListZone itemZone = new ItemListZone((Zone)e.getTarget());
-			zones.getItems().add(itemZone);
-			Scaler.updateSize(Main.width,itemZone);
+			if(!zones.getItems().contains(itemZone)) {
+				zones.getItems().add(itemZone);
+				Scaler.updateSize(Main.width,itemZone);
+			}
 		}
 	}
 
