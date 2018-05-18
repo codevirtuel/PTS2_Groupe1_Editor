@@ -57,7 +57,7 @@ public class Theme {
 		return zones;
 	}
 
-	private Zone getZoneWithID(int id) {
+	public Zone getZoneWithID(int id) {
 		for(Zone zone : zones)
 			if(zone.getIndex()==id)
 				return zone;

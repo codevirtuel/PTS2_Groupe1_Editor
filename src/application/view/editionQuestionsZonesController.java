@@ -2,7 +2,10 @@ package application.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +34,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class editionQuestionsZonesController {
-	
+
 	public static Stage primaryStage;
 	private static Theme themeAModifier;
-	
+
 	public static Theme getThemeAModifier() {
 		return themeAModifier;
 	}
@@ -61,7 +64,7 @@ public class editionQuestionsZonesController {
 	Button changerImage;
 	@FXML
 	TextField titreTheme;
-	
+
 	@FXML
 	public void initialize() {
 		titreTheme.setText(themeAModifier.getNom());
@@ -72,25 +75,25 @@ public class editionQuestionsZonesController {
 		Label lblTheme = new Label("Aucune ...");
 		lblTheme.setAlignment(Pos.CENTER);
 		lblTheme.setTextAlignment(TextAlignment.CENTER);
-		lblTheme.setFont(Font.font(Main.POLICE,12));
+		lblTheme.setFont(Font.font(Main.POLICE, 12));
 		listeQuestions.getItems().add(lblTheme);
-		for(Question question : themeAModifier.getQuestions()) {
+		for (Question question : themeAModifier.getQuestions()) {
 			lblTheme = new Label(question.getIntitule());
 			lblTheme.setAlignment(Pos.CENTER);
 			lblTheme.setTextAlignment(TextAlignment.CENTER);
-			lblTheme.setFont(Font.font(Main.POLICE,12));
+			lblTheme.setFont(Font.font(Main.POLICE, 12));
 			listeQuestions.getItems().add(lblTheme);
-			System.out.println(question.getIntitule()+" "+listeQuestions.getItems().size());
+			System.out.println(question.getIntitule() + " " + listeQuestions.getItems().size());
 		}
-		for(Zone zone : themeAModifier.getZones()) {
+		for (Zone zone : themeAModifier.getZones()) {
 			lblTheme = new Label(zone.toString());
 			lblTheme.setAlignment(Pos.CENTER);
 			lblTheme.setTextAlignment(TextAlignment.CENTER);
-			lblTheme.setFont(Font.font(Main.POLICE,12));
+			lblTheme.setFont(Font.font(Main.POLICE, 12));
 			listeZones.getItems().add(lblTheme);
-			System.out.println(zone.toString()+" "+listeZones.getItems().size());
+			System.out.println(zone.toString() + " " + listeZones.getItems().size());
 		}
-		Scaler.updateSize(Main.width,vbox);
+		Scaler.updateSize(Main.width, vbox);
 	}
 
 	@FXML
@@ -104,75 +107,86 @@ public class editionQuestionsZonesController {
 		extensions.add("*.bmp");
 		explorateur.getExtensionFilters().add(new ExtensionFilter("Toutes les images ...", extensions));
 		File image = explorateur.showOpenDialog(primaryStage);
-		if(image!=null)themeAModifier.setImageFond(new Image(new FileInputStream(image.getAbsolutePath())));
+		if (image != null) {
+			File copieData = new File("./src/application/data/img_" + themeAModifier.getNom() + ".png");
+			themeAModifier.setImageFond(new Image(new FileInputStream(image.getAbsolutePath())));
+			try (InputStream sourceFile = new java.io.FileInputStream(image);
+					OutputStream destinationFile = new FileOutputStream(copieData)) {
+				byte buffer[] = new byte[512 * 1024];
+				int nbLecture;
+				while ((nbLecture = sourceFile.read(buffer)) != -1) {
+					destinationFile.write(buffer, 0, nbLecture);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	@FXML
 	public void selectionQuestion() {
-		if(listeQuestions.getSelectionModel().getSelectedItem()!=null &&
-				!listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
+		if (listeQuestions.getSelectionModel().getSelectedItem() != null
+				&& !listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
 			modifierQuestion.setDisable(false);
 			supprimerQuestion.setDisable(false);
-			for(Question question : themeAModifier.getQuestions())
-				if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+			for (Question question : themeAModifier.getQuestions())
+				if (question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
 					setListeZonesWithQuestion(question);
-		}
-		else if(listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
+		} else if (listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
 			setListeZonesWithQuestion(null);
 			modifierQuestion.setDisable(true);
 			supprimerQuestion.setDisable(true);
 		}
 	}
-	
+
 	private void setListeZonesWithQuestion(Question question) {
 		Font fontLbl = listeQuestions.getSelectionModel().getSelectedItem().getFont();
 		listeZones.getItems().clear();
-		if(question!=null)
-			for(Zone zone : question.getReponses()) {
+		if (question != null)
+			for (Zone zone : question.getReponses()) {
 				Label lblTheme = new Label(zone.toString());
 				lblTheme.setAlignment(Pos.CENTER);
 				lblTheme.setTextAlignment(TextAlignment.CENTER);
 				lblTheme.setFont(fontLbl);
 				listeZones.getItems().add(lblTheme);
-				System.out.println(zone.toString()+" "+listeZones.getItems().size());
+				System.out.println(zone.toString() + " " + listeZones.getItems().size());
 			}
 		else
-			for(Zone zone : themeAModifier.getZones()) {
+			for (Zone zone : themeAModifier.getZones()) {
 				Label lblTheme = new Label(zone.toString());
 				lblTheme.setAlignment(Pos.CENTER);
 				lblTheme.setTextAlignment(TextAlignment.CENTER);
 				lblTheme.setFont(fontLbl);
 				listeZones.getItems().add(lblTheme);
-				System.out.println(zone.toString()+" "+listeZones.getItems().size());
+				System.out.println(zone.toString() + " " + listeZones.getItems().size());
 			}
 	}
 
 	@FXML
 	public void gotoEditQuestion() {
-		if(themeAModifier.getImageFond()!=null) {
-			Question qSelect=null;
-			for(Question question : themeAModifier.getQuestions())
-				if(question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
-					qSelect=question;
-			System.out.println(qSelect+" : "+qSelect.getIntitule());
+		if (themeAModifier.getImageFond() != null) {
+			Question qSelect = null;
+			for (Question question : themeAModifier.getQuestions())
+				if (question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+					qSelect = question;
+			System.out.println(qSelect + " : " + qSelect.getIntitule());
 			editionCreationQuestionsController.setQuestion(qSelect);
-	
+
 			editionCreationQuestionsController.primaryStage = primaryStage;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
-				Scene scene = new Scene(root,Main.width,Main.height);
+				Scene scene = new Scene(root, Main.width, Main.height);
 				primaryStage.setResizable(false);
 				primaryStage.setScene(scene);
 				primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		else
+		} else
 			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
 	}
-	
+
 	@FXML
 	public void quitter() throws IOException {
 		VBox root = new VBox();
@@ -180,7 +194,7 @@ public class editionQuestionsZonesController {
 		SelecThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
 		Scene scene = new Scene(root);
-		
+
 		primaryStage.setResizable(false);
 
 		primaryStage.setScene(scene);

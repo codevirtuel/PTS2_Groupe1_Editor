@@ -8,6 +8,10 @@ public class Zone extends Polygon {
 	
 	private int index;
 	
+	public Zone(int i) {
+		index=i;
+	}
+	
 	public Zone(int i, List<Double> coordonnes) {
 		//A changer si necessaire
 		index=i;

@@ -17,6 +17,7 @@ public class Main extends Application {
 	public static int width = 1280;
 	public static int height = 720;
 	public static final String POLICE="Roboto";
+	public static Connect bdd;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -37,16 +38,19 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void stop() {
+		
+	}
 
 	public static void main(String[] args) {
-		launch(args);
 		try {
-			new Connect("~/BaseDD", "user", "");
-			System.out.println("co r�ussie");
+			bdd = new Connect("./src/application/database/database", "root", "root");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		launch(args);
 	}
 }
 //Coucou MAMENE

@@ -15,6 +15,11 @@ public class Question {
 		this.intitule = intitule;
 	}
 
+	public Question(String intitule) {
+		reponses = new ArrayList<Zone>();
+		this.intitule = intitule;
+	}
+
 	public List<Zone> getReponses() {
 		return reponses;
 	}
