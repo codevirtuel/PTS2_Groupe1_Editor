@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label prefHeight="41.0" prefWidth="333.0" text="- Création / Edition d'une zone -">
@@ -49,7 +48,7 @@
                               <Font name="Gabriola" size="21.0" />
                            </font>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="34.0" />
+                        <TextField prefHeight="23.0" prefWidth="24.0" />
                         <Label text="Y">
                            <font>
                               <Font name="Gabriola" size="21.0" />
@@ -58,7 +57,7 @@
                               <Insets left="25.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="34.0" />
+                        <TextField prefHeight="21.0" prefWidth="25.0" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" text="Ajouter un point">
                            <HBox.margin>
                               <Insets left="25.0" />
@@ -80,7 +79,10 @@
                   <Insets right="50.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="96.0" style="-fx-background-color: red;" text="Quitter" />
+            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="96.0" style="-fx-background-color: red;" text="Quitter">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </children>
