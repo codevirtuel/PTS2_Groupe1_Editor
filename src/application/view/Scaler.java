@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -25,8 +27,10 @@ import javafx.scene.text.Text;
 
 public class Scaler {
 	
+	private static final double DEFAUT_WIDTH=640;
+	
 	public static void updateSize(double newWidth,Pane root) {		
-		double factor = newWidth/640;
+		double factor = newWidth/DEFAUT_WIDTH;
 		ArrayList<Node> nodes = getAllNodes(root);
 		for(Node node : nodes) {
 			scale(node,factor);
@@ -57,11 +61,23 @@ public class Scaler {
 		
 		if(obj instanceof Label) {
 			((Labeled) obj).setFont(new Font(((Labeled) obj).getFont().getSize()*factor));
-			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+			if(((Region) obj).getPrefWidth()>=0 && ((Region) obj).getPrefHeight()>=0)((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
 		}
 		else if(obj instanceof ImageView) {
 			((ImageView) obj).setFitHeight(((ImageView) obj).getFitHeight()*factor);
 			((ImageView) obj).setFitWidth(((ImageView) obj).getFitWidth()*factor);
+		}
+		else if(obj instanceof ListView) {
+			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+			if(!(((ListView) obj).getItems().size()<1) && ((ListView) obj).getItems().get(0) instanceof Node)
+			{
+				for(Object node : ((ListView) obj).getItems()) {
+					if(node instanceof Pane)
+						updateSize(factor*DEFAUT_WIDTH, ((Pane)node));
+					else
+						scale(((Node)node),factor);
+				}
+			}
 		}
 		else if(obj instanceof Button) {
 			((Button) obj).setFont(new Font(((Button) obj).getFont().getSize()*factor));
@@ -74,6 +90,10 @@ public class Scaler {
 		else if(obj instanceof TextField) {
 			((TextField) obj).setFont(new Font(((TextField) obj).getFont().getSize()*factor));
 			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+		}
+		else if(obj instanceof Polygon) {
+			for(Double coordonnee : ((Polygon)obj).getPoints())
+				coordonnee = new Double(coordonnee.doubleValue()*factor);
 		}
 		else{
 			((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
