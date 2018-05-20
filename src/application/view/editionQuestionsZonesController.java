@@ -108,8 +108,7 @@ public class editionQuestionsZonesController {
 		explorateur.getExtensionFilters().add(new ExtensionFilter("Toutes les images ...", extensions));
 		File image = explorateur.showOpenDialog(primaryStage);
 		if (image != null) {
-			File copieData = new File("./src/application/data/img_" + themeAModifier.getNom() + ".png");
-			themeAModifier.setImageFond(new Image(new FileInputStream(image.getAbsolutePath())));
+			File copieData = new File("./src/application/data/" + image.getName());
 			try (InputStream sourceFile = new java.io.FileInputStream(image);
 					OutputStream destinationFile = new FileOutputStream(copieData)) {
 				byte buffer[] = new byte[512 * 1024];
@@ -120,6 +119,7 @@ public class editionQuestionsZonesController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			themeAModifier.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
 		}
 	}
 
