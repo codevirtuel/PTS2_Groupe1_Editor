@@ -26,7 +26,9 @@ public class Main extends Application {
 			VBox root = new VBox();
 
 			AccueilController.primaryStage = primaryStage;
-			root = FXMLLoader.load(getClass().getResource("view/CreationTheme.fxml"));
+
+			root = FXMLLoader.load(getClass().getResource("view/Editeur - Accueil.fxml"));
+
 			Scene scene = new Scene(root,width,height);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
