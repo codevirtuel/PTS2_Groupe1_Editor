@@ -13,9 +13,15 @@ public class Connect {
 		stt = con.createStatement();
 	}
 
-	public ResultSet executeCmd(String requete) throws SQLException {
+	public ResultSet executeQueryCmd(String requete) throws SQLException {
 		pst = con.prepareStatement(requete);
 		ResultSet res = pst.executeQuery();
+		return res;
+	}
+
+	public boolean executeUpdateCmd(String requete) throws SQLException {
+		pst = con.prepareStatement(requete);
+		boolean res = pst.execute();
 		return res;
 	}
 
