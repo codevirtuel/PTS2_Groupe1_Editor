@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -62,6 +63,8 @@ public class Scaler {
 		if(obj instanceof Label) {
 			((Labeled) obj).setFont(new Font(((Labeled) obj).getFont().getSize()*factor));
 			if(((Region) obj).getPrefWidth()>=0 && ((Region) obj).getPrefHeight()>=0)((Region) obj).setPrefSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+			else if(((Region) obj).getPrefWidth()>=0)((Region) obj).setPrefWidth(((Region) obj).getPrefWidth()*factor);
+			else if(((Region) obj).getPrefHeight()>=0)((Region) obj).setPrefHeight(((Region) obj).getPrefHeight()*factor);
 		}
 		else if(obj instanceof ImageView) {
 			((ImageView) obj).setFitHeight(((ImageView) obj).getFitHeight()*factor);
@@ -82,6 +85,9 @@ public class Scaler {
 		else if(obj instanceof Button) {
 			((Button) obj).setFont(new Font(((Button) obj).getFont().getSize()*factor));
 			((Region) obj).setMinSize(((Region) obj).getPrefWidth()*factor, ((Region) obj).getPrefHeight()*factor);
+		}
+		else if(obj instanceof Circle) {
+			((Circle) obj).setRadius(((Circle) obj).getRadius()*factor);
 		}
 		else if(obj instanceof Text) {
 			((Text) obj).setFont(new Font(((Text) obj).getFont().getSize()*factor));

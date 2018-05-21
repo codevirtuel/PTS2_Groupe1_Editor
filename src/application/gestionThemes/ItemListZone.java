@@ -26,6 +26,10 @@ public class ItemListZone extends HBox {
 		zoneToString.setFont(Font.font(Main.POLICE, 12));
 		this.getChildren().add(zoneToString);
 	}
+	
+	public ImageView getCroix() {
+		return croix;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

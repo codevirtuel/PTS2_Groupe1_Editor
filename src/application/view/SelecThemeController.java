@@ -43,7 +43,7 @@ public class SelecThemeController {
 		modifier.setDisable(true);
 		supprimer.setDisable(true);
 		List<String> themes = /* Get from BD */ new ArrayList<String>();
-		ResultSet themesBD = Main.bdd.executeCmd("SELECT * FROM THEME;");
+		ResultSet themesBD = Main.bdd.executeQueryCmd("SELECT * FROM THEME;");
 		while (themesBD.next()) {
 			System.out.println(themesBD.getString("NOM_THEME"));
 			themes.add(themesBD.getString("NOM_THEME"));
@@ -77,12 +77,12 @@ public class SelecThemeController {
 		Theme themeTmp = new Theme(listeThemes.getSelectionModel().getSelectedItem().getText());
 		try {
 			ResultSet zonesBD;
-			zonesBD = Main.bdd.executeCmd("SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+			zonesBD = Main.bdd.executeQueryCmd("SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
 					+ listeThemes.getSelectionModel().getSelectedItem().getText() + "';");
 			while (zonesBD.next()) {
 				Zone zoneTmp = new Zone(zonesBD.getInt("ID_ZONE"));
 				ResultSet pointsBD = Main.bdd
-						.executeCmd("SELECT POS_X,POS_Y FROM POINT WHERE ID_ZONE=" + zonesBD.getInt("ID_ZONE") + ";");
+						.executeQueryCmd("SELECT POS_X,POS_Y FROM POINT WHERE ID_ZONE=" + zonesBD.getInt("ID_ZONE") + ";");
 				while (pointsBD.next()) {
 					zoneTmp.getPoints().add(pointsBD.getDouble("POS_X"));
 					zoneTmp.getPoints().add(pointsBD.getDouble("POS_Y"));
@@ -90,11 +90,11 @@ public class SelecThemeController {
 				themeTmp.addZone(zoneTmp);
 			}
 			ResultSet questionsBD;
-			questionsBD = Main.bdd.executeCmd("SELECT * FROM QUESTION WHERE NOM_THEME='"
+			questionsBD = Main.bdd.executeQueryCmd("SELECT * FROM QUESTION WHERE NOM_THEME='"
 					+ listeThemes.getSelectionModel().getSelectedItem().getText() + "';");
 			while (questionsBD.next()) {
 				Question questionTmp = new Question(questionsBD.getString("INTITULE_QUESTION"));
-				ResultSet repsBD = Main.bdd.executeCmd(
+				ResultSet repsBD = Main.bdd.executeQueryCmd(
 						"SELECT ZONE.ID_ZONE FROM REPONSE INNER JOIN ZONE ON REPONSE.ID_ZONE=ZONE.ID_ZONE WHERE ID_QUESTION="
 								+ questionsBD.getInt("ID_QUESTION") + ";");
 				while (repsBD.next()) {
@@ -108,7 +108,7 @@ public class SelecThemeController {
 			e1.printStackTrace();
 		}
 		try {
-			ResultSet themeBD = Main.bdd.executeCmd("SELECT URL_IMAGE FROM THEME WHERE NOM_THEME='"+themeTmp.getNom()+"';");
+			ResultSet themeBD = Main.bdd.executeQueryCmd("SELECT URL_IMAGE FROM THEME WHERE NOM_THEME='"+themeTmp.getNom()+"';");
 			themeBD.next();
 			if (themeBD.getString("URL_IMAGE")!=null) {
 				Image imgFond;
@@ -116,6 +116,7 @@ public class SelecThemeController {
 				imgFond = new Image(new FileInputStream(
 						getClass().getResource("../data/" + themeBD.getString("URL_IMAGE")).getPath()));
 				themeTmp.setImageFond(imgFond);
+				themeTmp.setUrlImage(themeBD.getString("URL_IMAGE"));
 			}
 		} catch (FileNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -140,12 +141,11 @@ public class SelecThemeController {
 		AccueilController.primaryStage = primaryStage;
 		VBox root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("view/Editeur - Accueil.fxml"));
+			root = FXMLLoader.load(getClass().getResource("Editeur - Accueil.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		Scene scene = new Scene(root, Main.width, Main.height);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		primaryStage.setResizable(false);
 

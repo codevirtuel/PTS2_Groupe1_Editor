@@ -63,8 +63,8 @@
       </HBox>
       <HBox alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="620.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: lightgreen;" text="Valider" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: red;" text="Quitter" />
+            <Button mnemonicParsing="false" onAction="#valider" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: lightgreen;" text="Valider" />
+            <Button mnemonicParsing="false" onAction="#quitter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: red;" text="Quitter" />
          </children>
          <padding>
             <Insets top="10.0" />

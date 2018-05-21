@@ -11,6 +11,7 @@ public class Theme {
 	private List<Zone> zones;
 	private String nom;
 	private Image imageFond;
+	private String urlImage;
 	
 	public String getNom() {
 		return nom;
@@ -67,8 +68,14 @@ public class Theme {
 	public void setImageFond(Image img) {
 		imageFond=img;
 	}
+	public void setUrlImage(String img) {
+		urlImage=img;
+	}
 	public Image getImageFond() {
 		return imageFond;
+	}
+	public String getUrlImage() {
+		return urlImage;
 	}
 
 }

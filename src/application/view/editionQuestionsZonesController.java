@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +121,7 @@ public class editionQuestionsZonesController {
 				e.printStackTrace();
 			}
 			themeAModifier.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
+			themeAModifier.setUrlImage(copieData.getName());
 		}
 	}
 
@@ -136,6 +138,14 @@ public class editionQuestionsZonesController {
 			setListeZonesWithQuestion(null);
 			modifierQuestion.setDisable(true);
 			supprimerQuestion.setDisable(true);
+		}
+	}
+
+	@FXML
+	public void selectionZone() {
+		if (listeZones.getSelectionModel().getSelectedItem() != null) {
+			modifierZone.setDisable(false);
+			supprimerZone.setDisable(false);
 		}
 	}
 
@@ -163,6 +173,28 @@ public class editionQuestionsZonesController {
 	}
 
 	@FXML
+	public void gotoCreerQuestion() {
+		if (themeAModifier.getImageFond() != null) {
+			Question newQ = new Question("");
+			themeAModifier.addQuestion(newQ);
+			editionCreationQuestionsController.setQuestion(newQ);
+
+			editionCreationQuestionsController.primaryStage = primaryStage;
+			try {
+				VBox root = null;
+				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
+				Scene scene = new Scene(root, Main.width, Main.height);
+				primaryStage.setResizable(false);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
+	}
+	
+	@FXML
 	public void gotoEditQuestion() {
 		if (themeAModifier.getImageFond() != null) {
 			Question qSelect = null;
@@ -185,6 +217,96 @@ public class editionQuestionsZonesController {
 			}
 		} else
 			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
+	}
+
+	@FXML
+	public void gotoCreerZone() {
+		if (themeAModifier.getImageFond() != null) {
+			int idMax=0;
+			for(Zone zone : themeAModifier.getZones())
+				if(zone.getIndex()>idMax)
+					idMax=zone.getIndex();
+			Zone newZ = new Zone(idMax+1);
+			themeAModifier.addZone(newZ);
+			EditionCreationZonesController.setZone(newZ);
+
+			EditionCreationZonesController.primaryStage = primaryStage;
+			try {
+				VBox root = null;
+				root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+				Scene scene = new Scene(root, Main.width, Main.height);
+				primaryStage.setResizable(false);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
+	}
+
+	@FXML
+	public void gotoEditZone() {
+		if (themeAModifier.getImageFond() != null) {
+			Zone zSelect = null;
+			for (Zone zone : themeAModifier.getZones())
+				if (zone.toString().equals(listeZones.getSelectionModel().getSelectedItem().getText()))
+					zSelect = zone;
+			System.out.println(zSelect + " : " + zSelect.getIndex());
+			EditionCreationZonesController.setZone(zSelect);
+
+			EditionCreationZonesController.primaryStage = primaryStage;
+			try {
+				VBox root = null;
+				root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+				Scene scene = new Scene(root, Main.width, Main.height);
+				primaryStage.setResizable(false);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
+	}
+
+	@FXML
+	public void sauvegarder() throws IOException, SQLException {
+		System.out.println(themeAModifier.getUrlImage());
+		Main.bdd.executeUpdateCmd("DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"');");
+		Main.bdd.executeUpdateCmd("DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"');");
+		Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
+		Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
+		Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
+		//AJOUTER QUERY POUR SAUVEGARDER
+		Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('"+themeAModifier.getNom()+"','"+themeAModifier.getUrlImage()+"');");
+		int i=0;
+		for(Question qst : themeAModifier.getQuestions())
+			Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES ("+(++i)+",'"+qst.getIntitule()+"','"+themeAModifier.getNom()+"');");
+		i=0;
+		for(Zone zone : themeAModifier.getZones()) {
+			Main.bdd.executeUpdateCmd("INSERT INTO ZONE VALUES ("+zone.getIndex()+",'"+themeAModifier.getNom()+"');");
+			System.out.println(zone.getPoints().size());
+			for(int k=0; k<zone.getPoints().size(); k+=2)
+				Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES ("+(++i)+","+zone.getPoints().get(k)+","+zone.getPoints().get(k+1)+","+zone.getIndex()+");");
+		}
+		i=0;
+		int j=0;
+		for(Question qst : themeAModifier.getQuestions()) {
+			i++;
+			for(Zone zone : qst.getReponses())
+				Main.bdd.executeUpdateCmd("INSERT INTO REPONSE VALUES ("+(++j)+","+i+","+zone.getIndex()+");");
+		}
+		
+		VBox root = new VBox();
+
+		SelecThemeController.primaryStage = primaryStage;
+		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
+		Scene scene = new Scene(root);
+
+		primaryStage.setResizable(false);
+
+		primaryStage.setScene(scene);
 	}
 
 	@FXML

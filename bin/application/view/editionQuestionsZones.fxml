@@ -57,7 +57,7 @@
                </font>
             </Label>
             <ListView fx:id="listeQuestions" layoutY="28.0" onKeyReleased="#selectionQuestion" onMouseClicked="#selectionQuestion" prefHeight="106.0" prefWidth="310.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="310.0" AnchorPane.topAnchor="28.0" />
-            <Button layoutY="137.0" mnemonicParsing="false" text="Créer une nouvelle question" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="455.0" AnchorPane.topAnchor="137.0" />
+            <Button layoutY="137.0" mnemonicParsing="false" onAction="#gotoCreerQuestion" text="Créer une nouvelle question" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="455.0" AnchorPane.topAnchor="137.0" />
             <Button fx:id="modifierQuestion" layoutY="162.0" mnemonicParsing="false" onAction="#gotoEditQuestion" text="Modifier une question existante" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="436.0" AnchorPane.topAnchor="162.0" />
             <Button fx:id="supprimerQuestion" layoutY="187.0" mnemonicParsing="false" text="Supprimer une question existante" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="426.0" AnchorPane.topAnchor="187.0" />
             <Label layoutX="310.0" layoutY="-2.0" prefHeight="30.0" prefWidth="310.0" text="Zones :" underline="true" AnchorPane.bottomAnchor="191.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
@@ -65,10 +65,10 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Label>
-            <ListView fx:id="listeZones" layoutX="310.0" layoutY="28.0" prefHeight="106.0" prefWidth="310.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
-            <Button layoutX="310.0" layoutY="136.0" mnemonicParsing="false" text="Créer une nouvelle question" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="136.0" />
-            <Button fx:id="modifierZone" layoutX="310.0" layoutY="161.0" mnemonicParsing="false" text="Modifier une question existante" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="126.0" AnchorPane.topAnchor="161.0" />
-            <Button fx:id="supprimerZone" layoutX="310.0" layoutY="186.0" mnemonicParsing="false" text="Supprimer une question existante" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="186.0" />
+            <ListView fx:id="listeZones" layoutX="310.0" layoutY="28.0" onKeyReleased="#selectionZone" onMouseClicked="#selectionZone" prefHeight="106.0" prefWidth="310.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+            <Button layoutX="310.0" layoutY="136.0" mnemonicParsing="false" onAction="#gotoCreerZone" text="Créer une nouvelle zone" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="136.0" />
+            <Button fx:id="modifierZone" layoutX="310.0" layoutY="161.0" onAction="#gotoEditZone" mnemonicParsing="false" text="Modifier une zone existante" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="126.0" AnchorPane.topAnchor="161.0" />
+            <Button fx:id="supprimerZone" layoutX="310.0" layoutY="186.0" mnemonicParsing="false" text="Supprimer une zone existante" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="186.0" />
          </children>
          <VBox.margin>
             <Insets />
@@ -76,7 +76,7 @@
       </AnchorPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="580.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Sauvegarder" />
+            <Button mnemonicParsing="false" onAction="#sauvegarder" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Sauvegarder" />
             <Button mnemonicParsing="false" onAction="#quitter" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: red;" text="Quitter" />
          </children>
          <VBox.margin>
