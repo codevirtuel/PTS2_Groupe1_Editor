@@ -9,10 +9,12 @@ import application.gestionThemes.Question;
 import application.gestionThemes.Zone;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -73,7 +75,7 @@ public class EditionCreationZonesController {
 			else {
 				ItemListPoint itemPoint = new ItemListPoint(x,coord);
 				points.getItems().add(itemPoint);
-				itemPoint.getCroix().setOnMouseClicked(event -> points.getItems().remove(itemPoint));
+				itemPoint.getCroix().setOnMouseClicked(event -> supprimerPoint(itemPoint));
 				Circle point = new Circle(2, Color.RED);
 				paneImage.getChildren().add(point);
 				point.setTranslateX(x);
@@ -99,9 +101,28 @@ public class EditionCreationZonesController {
 		point.setTranslateX(x);
 		point.setTranslateY(y);
 		ItemListPoint itemPoint = new ItemListPoint(x,y);
-		itemPoint.getCroix().setOnMouseClicked(event -> points.getItems().remove(itemPoint));
+		itemPoint.getCroix().setOnMouseClicked(event -> supprimerPoint(itemPoint));
 		points.getItems().add(itemPoint);
 		Scaler.updateSize(Main.width,itemPoint);
+	}
+	
+	@FXML
+	public void supprimerPoint(ItemListPoint point) {
+		Circle circle=null;
+		for(Node node : paneImage.getChildren()) {
+			System.out.println(node);
+			if(node instanceof Circle) {
+				Circle circleTmp = (Circle)node;
+				System.out.println(circleTmp.getTranslateX()+";"+circleTmp.getTranslateY());
+				System.out.println(circleTmp.getCenterX()+";"+circleTmp.getCenterY());
+				if(circleTmp.getTranslateX()==point.getX().doubleValue() && circleTmp.getTranslateY()==point.getY().doubleValue()) {
+					circle = (Circle)node;
+				}
+			}
+		}
+		points.getItems().remove(point);
+		if(circle!=null)
+			paneImage.getChildren().remove(circle);
 	}
 
 	public static void setZone(Zone zSelect) {
@@ -125,6 +146,8 @@ public class EditionCreationZonesController {
 	public void quitter() throws IOException {
 		zoneAModifier.getPoints().clear();
 		zoneAModifier.getPoints().addAll(sauvegardeZone.getPoints());
+		if(sauvegardeZone.getPoints().size()<3)
+			editionQuestionsZonesController.getThemeAModifier().getZones().remove(zoneAModifier);
 		VBox root = new VBox();
 
 		SelecThemeController.primaryStage = primaryStage;

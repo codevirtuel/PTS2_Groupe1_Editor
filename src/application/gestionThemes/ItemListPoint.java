@@ -30,4 +30,12 @@ public class ItemListPoint extends HBox {
 	public ImageView getCroix() {
 		return croix;
 	}
+	
+	public Double getY() {
+		return y;
+	}
+	
+	public Double getX() {
+		return x;
+	}
 }
