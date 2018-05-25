@@ -32,68 +32,68 @@ public class editionCreationQuestionsController {
 	public static Stage primaryStage;
 	private static Question questionAModifier;
 	private Question sauvegardeQuestion;
-	
+
 	@FXML
 	VBox vbox;
-	
+
 	@FXML
 	TextField intituleQuestion;
-	
+
 	@FXML
 	ListView<ItemListZone> zones;
-	
+
 	@FXML
 	AnchorPane paneImage;
-	
+
 	@FXML
 	public void initialize() {
 		sauvegardeQuestion = new Question(questionAModifier.getIntitule());
 		sauvegardeQuestion.setReponses(questionAModifier.getReponses());
-		double height=paneImage.getPrefHeight(),width=paneImage.getPrefWidth(), rapport=height/width;
-		if(editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()*rapport>editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight())
-		{
-			height = width*editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()/
-					editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth();
+		double height = paneImage.getPrefHeight(), width = paneImage.getPrefWidth(), rapport = height / width;
+		if (editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
+				* rapport > editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()) {
+			height = width * editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()
+					/ editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth();
 			paneImage.setPrefHeight(height);
-		}
-		else
-		{
-			width = height*editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()/
-					editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight();
+		} else {
+			width = height * editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
+					/ editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight();
 			paneImage.setPrefWidth(width);
 		}
-		BackgroundImage bgImage = new BackgroundImage(editionQuestionsZonesController.getThemeAModifier().getImageFond(),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(width, height, false, false, false, true));
+		BackgroundImage bgImage = new BackgroundImage(
+				editionQuestionsZonesController.getThemeAModifier().getImageFond(), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+				new BackgroundSize(width, height, false, false, false, true));
 		paneImage.setBackground(new Background(bgImage));
 
 		intituleQuestion.setText(questionAModifier.getIntitule());
-		
-		for(Zone zone : questionAModifier.getReponses()) {
+
+		for (Zone zone : questionAModifier.getReponses()) {
 			ItemListZone itemZone = new ItemListZone(zone);
 			itemZone.getCroix().setOnMouseClicked(event -> zones.getItems().remove(itemZone));
 			zones.getItems().add(itemZone);
 		}
 
-		for(Zone zone : editionQuestionsZonesController.getThemeAModifier().getZones()) {
+		for (Zone zone : editionQuestionsZonesController.getThemeAModifier().getZones()) {
 			zone.setOpacity(0.3);
 			zone.setFill(Color.RED);
 			paneImage.getChildren().add(zone);
 		}
-		
-		System.out.println(paneImage.getPrefWidth()+";"+paneImage.getPrefHeight());
-		Scaler.updateSize(Main.width,vbox);
-		System.out.println(paneImage.getPrefWidth()+";"+paneImage.getPrefHeight());
+
+		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());
+		Scaler.updateSize(Main.width, vbox);
+		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());
 	}
-	
+
 	@FXML
 	private void addZone(MouseEvent e) {
-		if(e.getTarget() instanceof Zone) {
-			questionAModifier.getReponses().add(((Zone)e.getTarget()));
-			ItemListZone itemZone = new ItemListZone((Zone)e.getTarget());
-			if(!zones.getItems().contains(itemZone)) {
+		if (e.getTarget() instanceof Zone) {
+			ItemListZone itemZone = new ItemListZone((Zone) e.getTarget());
+			if (!zones.getItems().contains(itemZone)) {
+				questionAModifier.getReponses().add(((Zone) e.getTarget()));
 				zones.getItems().add(itemZone);
 				itemZone.getCroix().setOnMouseClicked(event -> zones.getItems().remove(itemZone));
-				Scaler.updateSize(Main.width,itemZone);
+				Scaler.updateSize(Main.width, itemZone);
 			}
 		}
 	}
@@ -105,15 +105,17 @@ public class editionCreationQuestionsController {
 	@FXML
 	public void valider() throws IOException {
 		questionAModifier.setIntitule(intituleQuestion.getText());
-		VBox root = new VBox();
+		if (zones.getItems().size() > 0 && questionAModifier.getIntitule().length()>2) {
+			VBox root = new VBox();
 
-		SelecThemeController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
-		Scene scene = new Scene(root);
+			SelecThemeController.primaryStage = primaryStage;
+			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
+			Scene scene = new Scene(root);
 
-		primaryStage.setResizable(false);
+			primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
+			primaryStage.setScene(scene);
+		}
 	}
 
 	@FXML

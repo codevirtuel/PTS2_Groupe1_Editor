@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -19,27 +20,27 @@
    <children>
       <Label text="- Créer un nouveau thème -">
          <font>
-            <Font name="Gabriola" size="37.0" />
+            <Font name="Gabriola" size="33.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="640.0">
          <children>
             <Label text="Nom du thème* :">
                <font>
-                  <Font name="Gabriola" size="27.0" />
+                  <Font name="Gabriola" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="nomTheme" prefHeight="25.0" prefWidth="418.0" />
+            <TextField fx:id="nomTheme" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="640.0">
          <children>
             <Label text="Image du thème* :">
                <font>
-                  <Font name="Gabriola" size="27.0" />
+                  <Font name="Gabriola" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="urlImage" prefHeight="25.0" prefWidth="261.0">
+            <TextField fx:id="urlImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#majFromUrl" prefHeight="25.0" prefWidth="250.0">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
@@ -70,12 +71,15 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#valider" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: lightgreen;" text="Valider">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Valider">
                <HBox.margin>
                   <Insets right="175.0" />
                </HBox.margin>
+               <effect>
+                  <DropShadow color="#0c6e17c4" height="22.0" radius="10.5" width="22.0" />
+               </effect>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="101.0" style="-fx-background-color: red;" text="Annuler" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annuler" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Annuler" />
          </children>
       </HBox>
    </children>
