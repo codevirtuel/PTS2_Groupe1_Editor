@@ -33,7 +33,7 @@
       </Label>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <AnchorPane fx:id="paneImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#addZone" prefHeight="220.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 1px;" />
+            <AnchorPane fx:id="paneImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#addZone" prefHeight="200.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 1px;" />
             <VBox alignment="CENTER_RIGHT" prefHeight="192.0" prefWidth="200.0">
                <children>
                   <Label prefHeight="30.0" prefWidth="235.0" text="Question :" underline="true">

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.AjouterThemeController">
    <children>
       <Label text="- Créer un nouveau thème -">
          <font>
@@ -23,7 +29,7 @@
                   <Font name="Gabriola" size="27.0" />
                </font>
             </Label>
-            <TextField prefHeight="25.0" prefWidth="418.0" />
+            <TextField fx:id="nomTheme" prefHeight="25.0" prefWidth="418.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -33,12 +39,12 @@
                   <Font name="Gabriola" size="27.0" />
                </font>
             </Label>
-            <TextField prefHeight="25.0" prefWidth="261.0">
+            <TextField fx:id="urlImage" prefHeight="25.0" prefWidth="261.0">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="116.0" style="-fx-background-color: lightblue;" text="Choisir image">
+            <Button mnemonicParsing="false" onAction="#changerImage" prefHeight="35.0" prefWidth="116.0" style="-fx-background-color: lightblue;" text="Choisir image">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -55,7 +61,7 @@
                   <Insets right="108.0" />
                </HBox.margin>
             </Label>
-            <ImageView fitHeight="136.0" fitWidth="279.0" pickOnBounds="true" preserveRatio="true" translateX="-75.0">
+            <ImageView fx:id="apercuImage" fitHeight="136.0" fitWidth="279.0" pickOnBounds="true" preserveRatio="true" translateX="-75.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -64,7 +70,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: lightgreen;" text="Valider">
+            <Button mnemonicParsing="false" onAction="#valider" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: lightgreen;" text="Valider">
                <HBox.margin>
                   <Insets right="175.0" />
                </HBox.margin>

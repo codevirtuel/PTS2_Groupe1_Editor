@@ -69,16 +69,45 @@ public class SelecThemeController {
 
 	@FXML
 	public void supprimerTheme() {
-		listeThemes.getItems().remove(listeThemes.getSelectionModel().getSelectedItem());
+		if (listeThemes.getSelectionModel().getSelectedItem() != null) {
+			listeThemes.getItems().remove(listeThemes.getSelectionModel().getSelectedItem());
+		}
 	}
 
 	@FXML
 	public void gotoEditTheme() {
-		Theme themeTmp = new Theme(listeThemes.getSelectionModel().getSelectedItem().getText());
+		ResultSet zonesDB;
+		try {
+			zonesDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_ZONE) FROM ZONE;");
+			editionQuestionsZonesController.idZoneMax = 1;
+			if (zonesDB.next()) {
+				editionQuestionsZonesController.idZoneMax = zonesDB.getInt("MAX(ID_ZONE)") + 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		editionQuestionsZonesController.setThemeAModifier(chargerTheme(listeThemes.getSelectionModel().getSelectedItem().getText()));
+
+		editionQuestionsZonesController.primaryStage = primaryStage;
+		try {
+			VBox root = null;
+			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
+			Scene scene = new Scene(root, Main.width, Main.height);
+			primaryStage.setResizable(false);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Theme chargerTheme(String theme) {
+		Theme themeTmp = new Theme(theme);
 		try {
 			ResultSet zonesBD;
 			zonesBD = Main.bdd.executeQueryCmd("SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-					+ listeThemes.getSelectionModel().getSelectedItem().getText() + "';");
+					+ theme + "';");
 			while (zonesBD.next()) {
 				Zone zoneTmp = new Zone(zonesBD.getInt("ID_ZONE"));
 				ResultSet pointsBD = Main.bdd
@@ -91,7 +120,7 @@ public class SelecThemeController {
 			}
 			ResultSet questionsBD;
 			questionsBD = Main.bdd.executeQueryCmd("SELECT * FROM QUESTION WHERE NOM_THEME='"
-					+ listeThemes.getSelectionModel().getSelectedItem().getText() + "';");
+					+ theme + "';");
 			while (questionsBD.next()) {
 				Question questionTmp = new Question(questionsBD.getString("INTITULE_QUESTION"));
 				ResultSet repsBD = Main.bdd.executeQueryCmd(
@@ -121,19 +150,7 @@ public class SelecThemeController {
 		} catch (FileNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		editionQuestionsZonesController.setThemeAModifier(themeTmp);
-
-		editionQuestionsZonesController.primaryStage = primaryStage;
-		try {
-			VBox root = null;
-			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
-			Scene scene = new Scene(root, Main.width, Main.height);
-			primaryStage.setResizable(false);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return themeTmp;
 	}
 
 	@FXML

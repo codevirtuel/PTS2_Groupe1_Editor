@@ -64,6 +64,9 @@ public class EditionCreationZonesController {
 		BackgroundImage bgImage = new BackgroundImage(editionQuestionsZonesController.getThemeAModifier().getImageFond(),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(width, height, false, false, false, true));
 		paneImage.setBackground(new Background(bgImage));
+		zoneAModifier.setOpacity(0.3);
+		zoneAModifier.setFill(Color.RED);
+		paneImage.getChildren().add(zoneAModifier);
 		
 		Double x = null;
 		boolean xTraite = true;
@@ -121,6 +124,8 @@ public class EditionCreationZonesController {
 			}
 		}
 		points.getItems().remove(point);
+		zoneAModifier.getPoints().remove(point.getX());
+		zoneAModifier.getPoints().remove(point.getY());
 		if(circle!=null)
 			paneImage.getChildren().remove(circle);
 	}
