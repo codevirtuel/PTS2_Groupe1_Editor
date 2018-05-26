@@ -133,6 +133,8 @@ public class editionQuestionsZonesController {
 				modifierQuestion.setDisable(true);
 				supprimerQuestion.setDisable(true);
 			}
+		else
+			setListeZonesWithQuestion(null);
 	}
 
 	@FXML

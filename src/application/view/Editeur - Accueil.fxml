@@ -49,7 +49,7 @@
       </HBox>
       <HBox alignment="CENTER" spacing="10.0">
          <children>
-            <Button fx:id="parametres" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Paramètres">
+            <Button fx:id="parametres" mnemonicParsing="false" onAction="#gotoParams" prefHeight="50.0" prefWidth="100.0" text="Paramètres">
                <font>
                   <Font size="15.0" />
                </font>
