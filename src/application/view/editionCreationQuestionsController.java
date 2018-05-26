@@ -4,12 +4,15 @@ import java.awt.Paint;
 import java.io.IOException;
 
 import application.Main;
+import application.gestionThemes.ItemListPoint;
 import application.gestionThemes.ItemListZone;
 import application.gestionThemes.Question;
 import application.gestionThemes.Zone;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -46,6 +49,9 @@ public class editionCreationQuestionsController {
 	AnchorPane paneImage;
 
 	@FXML
+	Label txtErreur;
+
+	@FXML
 	public void initialize() {
 		sauvegardeQuestion = new Question(questionAModifier.getIntitule());
 		sauvegardeQuestion.setReponses(questionAModifier.getReponses());
@@ -70,15 +76,21 @@ public class editionCreationQuestionsController {
 
 		for (Zone zone : questionAModifier.getReponses()) {
 			ItemListZone itemZone = new ItemListZone(zone);
-			itemZone.getCroix().setOnMouseClicked(event -> zones.getItems().remove(itemZone));
+			itemZone.setOnMouseClicked(event -> selectionZone(itemZone));
+			itemZone.getCroix().setOnMouseClicked(event -> removeZone(itemZone));
 			zones.getItems().add(itemZone);
 		}
 
 		for (Zone zone : editionQuestionsZonesController.getThemeAModifier().getZones()) {
 			zone.setOpacity(0.3);
-			zone.setFill(Color.rgb((int)(Math.random()*150+100), (int)(Math.random()*150+100), (int)(Math.random()*150+100)));
+			zone.setFill(Color.rgb((int) (Math.random() * 150 + 100), (int) (Math.random() * 150 + 100),
+					(int) (Math.random() * 150 + 100)));
 			zone.setStroke(Color.BLACK);
+			zone.setStrokeWidth(1);
+			Label numero = new Label("" + zone.getIndex());
+			System.out.println(zone.getBoundsInLocal());
 			paneImage.getChildren().add(zone);
+			paneImage.getChildren().add(numero);
 		}
 
 		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());
@@ -93,9 +105,12 @@ public class editionCreationQuestionsController {
 			if (!zones.getItems().contains(itemZone)) {
 				questionAModifier.getReponses().add(((Zone) e.getTarget()));
 				zones.getItems().add(itemZone);
-				itemZone.getCroix().setOnMouseClicked(event -> zones.getItems().remove(itemZone));
+				itemZone.setOnMouseClicked(event -> selectionZone(itemZone));
+				itemZone.getCroix().setOnMouseClicked(event -> removeZone(itemZone));
 				Scaler.updateSize(Main.width, itemZone);
 			}
+			else
+				txtErreur.setText("La zone a déjà été ajoutée.");
 		}
 	}
 
@@ -103,10 +118,53 @@ public class editionCreationQuestionsController {
 		questionAModifier = qSelect;
 	}
 
+	public void removeZone(ItemListZone itemList) {
+		System.out.println("Supp zone");
+		zones.getItems().remove(itemList);
+		selectionZone(null);
+	}
+
+	public void selectionZone(ItemListZone itemList) {
+		System.out.println("clique on pt");
+		System.out.println(itemList);
+		if (zones.getItems().contains(itemList) || itemList == null) {
+			for (Node node : paneImage.getChildren()) {
+				System.out.println(node);
+				if (node instanceof Zone) {
+					Zone zoneTmp = (Zone) node;
+					if (itemList != null && zoneTmp == itemList.getZone()) {
+						zoneTmp.setStroke(Color.BLUE);
+						zoneTmp.setStrokeWidth(3);
+					} else {
+						zoneTmp.setStroke(Color.BLACK);
+						zoneTmp.setStrokeWidth(1);
+					}
+				}
+			}
+		}
+	}
+
+	@FXML
+	public void creerZoneAssocier() throws IOException {
+			Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+			editionQuestionsZonesController.idZoneMax++;
+			EditionCreationZonesController.setZone(newZ);
+		EditionCreationZonesController.questionAssociation = questionAModifier;
+			VBox root = new VBox();
+
+			EditionCreationZonesController.primaryStage = primaryStage;
+			root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+			Scene scene = new Scene(root);
+
+			primaryStage.setResizable(false);
+
+			primaryStage.setScene(scene);
+	}
+	
 	@FXML
 	public void valider() throws IOException {
 		questionAModifier.setIntitule(intituleQuestion.getText());
-		if (zones.getItems().size() > 0 && questionAModifier.getIntitule().length()>2) {
+		if (zones.getItems().size() > 0 && questionAModifier.getIntitule().length() > 2) {
 			VBox root = new VBox();
 
 			SelecThemeController.primaryStage = primaryStage;
@@ -116,6 +174,14 @@ public class editionCreationQuestionsController {
 			primaryStage.setResizable(false);
 
 			primaryStage.setScene(scene);
+		}
+		else if(zones.getItems().size() > 0) {
+			txtErreur.setText("L'intitulé de la question doit faire plus de 2 caractères.");
+			intituleQuestion.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
+		}
+		else {
+			txtErreur.setText("La queston doit avoir au moins une zone de réponse.");
+			zones.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
 		}
 	}
 

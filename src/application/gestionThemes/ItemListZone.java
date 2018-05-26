@@ -30,6 +30,10 @@ public class ItemListZone extends HBox {
 	public ImageView getCroix() {
 		return croix;
 	}
+	
+	public Zone getZone() {
+		return zone;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

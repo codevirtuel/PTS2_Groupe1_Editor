@@ -330,7 +330,7 @@ public class editionQuestionsZonesController {
 			ResultSet listeTheme = Main.bdd.executeQueryCmd("SELECT NOM_THEME FROM THEME;");
 			boolean unuse = true;
 			while (listeTheme.next())
-				if (listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
+				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom()) && listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
 					unuse = false;
 					titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 				}

@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 public class EditionCreationZonesController {
 
 	public static Stage primaryStage;
+	public static Question questionAssociation;
 	private static Zone zoneAModifier;
 	private Zone sauvegardeZone;
 
@@ -176,15 +177,34 @@ public class EditionCreationZonesController {
 	@FXML
 	public void valider() throws IOException {
 		if (points.getItems().size() > 2) {
-			VBox root = new VBox();
+			if (questionAssociation == null) {
+				VBox root = new VBox();
 
-			editionQuestionsZonesController.primaryStage = primaryStage;
-			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
-			Scene scene = new Scene(root);
+				editionQuestionsZonesController.primaryStage = primaryStage;
+				root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
+				Scene scene = new Scene(root);
 
-			primaryStage.setResizable(false);
+				primaryStage.setResizable(false);
 
-			primaryStage.setScene(scene);
+				primaryStage.setScene(scene);
+			} else {
+				questionAssociation.getReponses().add(zoneAModifier);
+				editionCreationQuestionsController.setQuestion(questionAssociation);
+
+				editionQuestionsZonesController.getThemeAModifier().addZone(zoneAModifier);
+				editionCreationQuestionsController.primaryStage = primaryStage;
+				questionAssociation = null;
+				try {
+					VBox root = null;
+					root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
+					Scene scene = new Scene(root, Main.width, Main.height);
+					primaryStage.setResizable(false);
+					primaryStage.setScene(scene);
+					primaryStage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} else
 			txtErreur.setText("Il faut que la zone contiennent au moins trois points.");
 	}
@@ -192,19 +212,37 @@ public class EditionCreationZonesController {
 	@FXML
 	public void creerNewZone() throws IOException {
 		if (points.getItems().size() > 2) {
-			Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
-			editionQuestionsZonesController.idZoneMax++;
-			editionQuestionsZonesController.getThemeAModifier().addZone(newZ);
-			EditionCreationZonesController.setZone(newZ);
-			try {
-				VBox root = null;
-				root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
-				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (questionAssociation == null) {
+				Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+				editionQuestionsZonesController.idZoneMax++;
+				editionQuestionsZonesController.getThemeAModifier().addZone(newZ);
+				EditionCreationZonesController.setZone(newZ);
+				try {
+					VBox root = null;
+					root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+					Scene scene = new Scene(root, Main.width, Main.height);
+					primaryStage.setResizable(false);
+					primaryStage.setScene(scene);
+					primaryStage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				questionAssociation.getReponses().add(zoneAModifier);
+				editionQuestionsZonesController.getThemeAModifier().addZone(zoneAModifier);
+				Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+				editionQuestionsZonesController.idZoneMax++;
+				EditionCreationZonesController.setZone(newZ);
+				try {
+					VBox root = null;
+					root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+					Scene scene = new Scene(root, Main.width, Main.height);
+					primaryStage.setResizable(false);
+					primaryStage.setScene(scene);
+					primaryStage.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} else
 			txtErreur.setText("Il faut que la zone contiennent au moins trois points.");
@@ -214,7 +252,7 @@ public class EditionCreationZonesController {
 	public void quitter() throws IOException {
 		zoneAModifier.getPoints().clear();
 		zoneAModifier.getPoints().addAll(sauvegardeZone.getPoints());
-		if (sauvegardeZone.getPoints().size() < 3)
+		if(questionAssociation == null) {
 			editionQuestionsZonesController.getThemeAModifier().getZones().remove(zoneAModifier);
 		VBox root = new VBox();
 
@@ -225,5 +263,22 @@ public class EditionCreationZonesController {
 		primaryStage.setResizable(false);
 
 		primaryStage.setScene(scene);
+		}
+		else {
+			editionCreationQuestionsController.setQuestion(questionAssociation);
+
+			editionCreationQuestionsController.primaryStage = primaryStage;
+			questionAssociation = null;
+			try {
+				VBox root = null;
+				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
+				Scene scene = new Scene(root, Main.width, Main.height);
+				primaryStage.setResizable(false);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
