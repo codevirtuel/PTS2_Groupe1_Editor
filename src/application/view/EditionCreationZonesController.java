@@ -66,6 +66,7 @@ public class EditionCreationZonesController {
 		paneImage.setBackground(new Background(bgImage));
 		zoneAModifier.setOpacity(0.3);
 		zoneAModifier.setFill(Color.RED);
+		zoneAModifier.setStroke(Color.BLACK);
 		paneImage.getChildren().add(zoneAModifier);
 		
 		Double x = null;
@@ -78,6 +79,7 @@ public class EditionCreationZonesController {
 			else {
 				ItemListPoint itemPoint = new ItemListPoint(x,coord);
 				points.getItems().add(itemPoint);
+				itemPoint.setOnMouseClicked(event -> selectionPoint(itemPoint));
 				itemPoint.getCroix().setOnMouseClicked(event -> supprimerPoint(itemPoint));
 				Circle point = new Circle(2, Color.RED);
 				paneImage.getChildren().add(point);
@@ -104,6 +106,7 @@ public class EditionCreationZonesController {
 		point.setTranslateX(x);
 		point.setTranslateY(y);
 		ItemListPoint itemPoint = new ItemListPoint(x,y);
+		itemPoint.setOnMouseClicked(event -> selectionPoint(itemPoint));
 		itemPoint.getCroix().setOnMouseClicked(event -> supprimerPoint(itemPoint));
 		points.getItems().add(itemPoint);
 		Scaler.updateSize(Main.width,itemPoint);
@@ -128,6 +131,25 @@ public class EditionCreationZonesController {
 		zoneAModifier.getPoints().remove(point.getY());
 		if(circle!=null)
 			paneImage.getChildren().remove(circle);
+	}
+	
+	@FXML
+	public void selectionPoint(ItemListPoint point) {
+		System.out.println("clique on pt");
+		for(Node node : paneImage.getChildren()) {
+			System.out.println(node);
+			if(node instanceof Circle) {
+				Circle circleTmp = (Circle)node;
+				System.out.println(circleTmp.getTranslateX()+";"+circleTmp.getTranslateY());
+				System.out.println(circleTmp.getCenterX()+";"+circleTmp.getCenterY());
+				if(circleTmp.getTranslateX()==point.getX().doubleValue() && circleTmp.getTranslateY()==point.getY().doubleValue()) {
+					circleTmp.setFill(Color.BLUE);
+				}
+				else {
+					circleTmp.setFill(Color.RED);
+				}
+			}
+		}
 	}
 
 	public static void setZone(Zone zSelect) {

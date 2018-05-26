@@ -68,9 +68,17 @@ public class SelecThemeController {
 	}
 
 	@FXML
-	public void supprimerTheme() {
+	public void supprimerTheme() throws SQLException {
 		if (listeThemes.getSelectionModel().getSelectedItem() != null) {
+			String nomThemeSupp = listeThemes.getSelectionModel().getSelectedItem().getText();
 			listeThemes.getItems().remove(listeThemes.getSelectionModel().getSelectedItem());
+			Main.bdd.executeUpdateCmd("DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+					+ nomThemeSupp + "');");
+			Main.bdd.executeUpdateCmd("DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+					+ nomThemeSupp + "');");
+			Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + nomThemeSupp + "';");
+			Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + nomThemeSupp + "';");
+			Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + nomThemeSupp + "';");
 		}
 	}
 

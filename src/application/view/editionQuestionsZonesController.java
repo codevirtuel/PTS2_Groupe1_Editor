@@ -25,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -70,6 +71,8 @@ public class editionQuestionsZonesController {
 	Button changerImage;
 	@FXML
 	TextField titreTheme;
+	@FXML
+	ImageView imageFond;
 
 	@FXML
 	public void initialize() {
@@ -82,6 +85,7 @@ public class editionQuestionsZonesController {
 		supprimerZone.setDisable(true);
 		setListeQuestions(themeAModifier.getQuestions());
 		setListeZonesWithQuestion(null);
+		imageFond.setImage(themeAModifier.getImageFond());
 		Scaler.updateSize(Main.width, vbox);
 		fontLblUpSize = listeQuestions.getItems().get(0).getFont();
 	}
@@ -111,6 +115,7 @@ public class editionQuestionsZonesController {
 			}
 			themeAModifier.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
 			themeAModifier.setUrlImage(copieData.getName());
+			imageFond.setImage(themeAModifier.getImageFond());
 		}
 	}
 
@@ -319,64 +324,87 @@ public class editionQuestionsZonesController {
 
 	@FXML
 	public void sauvegarder() throws IOException, SQLException {
-		System.out.println(themeAModifier.getUrlImage());
-		Main.bdd.executeUpdateCmd("DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-				+ themeAModifier.getNom() + "');");
-		Main.bdd.executeUpdateCmd("DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-				+ themeAModifier.getNom() + "');");
-		Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
-		Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
-		Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
-		// AJOUTER QUERY POUR SAUVEGARDER
-		Main.bdd.executeUpdateCmd(
-				"INSERT INTO THEME VALUES ('" + themeAModifier.getNom() + "','" + themeAModifier.getUrlImage() + "');");
-		ResultSet qustsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_QUESTION) FROM QUESTION;");
-		int i = 0;
-		if (qustsDB.next()) {
-			System.out.println(qustsDB.getInt("MAX(ID_QUESTION)"));
-			i = qustsDB.getInt("MAX(ID_QUESTION)");
-		}
-		int k = i;
-		for (Question qst : themeAModifier.getQuestions()) {
-			Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES (" + (++i) + ",'" + qst.getIntitule() + "','"
-					+ themeAModifier.getNom() + "');");
-			System.out.println("INSERT INTO QUESTION VALUES (" + (i) + ",'" + qst.getIntitule() + "','"
-					+ themeAModifier.getNom() + "');");
-		}
-		ResultSet pointsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_POINT) FROM POINT;");
-		i = 0;
-		if (pointsDB.next()) {
-			i = pointsDB.getInt("MAX(ID_POINT)");
-		}
-		for (Zone zone : themeAModifier.getZones()) {
-			Main.bdd.executeUpdateCmd(
-					"INSERT INTO ZONE VALUES (" + zone.getIndex() + ",'" + themeAModifier.getNom() + "');");
-			System.out.println(zone.getPoints().size());
-			for (int l = 0; l < zone.getPoints().size(); l += 2)
-				Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES (" + (++i) + "," + zone.getPoints().get(l) + ","
-						+ zone.getPoints().get(l + 1) + "," + zone.getIndex() + ");");
-		}
-		ResultSet repsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_REP) FROM REPONSE;");
-		int j = 0;
-		if (repsDB.next()) {
-			j = repsDB.getInt("MAX(ID_REP)");
-		}
-		for (Question qst : themeAModifier.getQuestions()) {
-			k++;
-			for (Zone zone : qst.getReponses())
+		System.out.println("save");
+		if (themeAModifier.getImageFond() != null) {
+			changerImage.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
+			ResultSet listeTheme = Main.bdd.executeQueryCmd("SELECT NOM_THEME FROM THEME;");
+			boolean unuse = true;
+			while (listeTheme.next())
+				if (listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
+					unuse = false;
+					titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
+				}
+			if (titreTheme.getText().length() < 2) {
+				unuse = false;
+				titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
+			}
+			if (unuse) {
+				titreTheme.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
+				System.out.println(themeAModifier.getUrlImage());
 				Main.bdd.executeUpdateCmd(
-						"INSERT INTO REPONSE VALUES (" + (++j) + "," + k + "," + zone.getIndex() + ");");
+						"DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+								+ themeAModifier.getNom() + "');");
+				Main.bdd.executeUpdateCmd(
+						"DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+								+ themeAModifier.getNom() + "');");
+				Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				// AJOUTER QUERY POUR SAUVEGARDER
+				themeAModifier.setNom(titreTheme.getText());
+				Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeAModifier.getNom() + "','"
+						+ themeAModifier.getUrlImage() + "');");
+				ResultSet qustsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_QUESTION) FROM QUESTION;");
+				int i = 0;
+				if (qustsDB.next()) {
+					System.out.println(qustsDB.getInt("MAX(ID_QUESTION)"));
+					i = qustsDB.getInt("MAX(ID_QUESTION)");
+				}
+				int k = i;
+				for (Question qst : themeAModifier.getQuestions()) {
+					Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES (" + (++i) + ",'" + qst.getIntitule() + "','"
+							+ themeAModifier.getNom() + "');");
+					System.out.println("INSERT INTO QUESTION VALUES (" + (i) + ",'" + qst.getIntitule() + "','"
+							+ themeAModifier.getNom() + "');");
+				}
+				ResultSet pointsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_POINT) FROM POINT;");
+				i = 0;
+				if (pointsDB.next()) {
+					i = pointsDB.getInt("MAX(ID_POINT)");
+				}
+				for (Zone zone : themeAModifier.getZones()) {
+					Main.bdd.executeUpdateCmd(
+							"INSERT INTO ZONE VALUES (" + zone.getIndex() + ",'" + themeAModifier.getNom() + "');");
+					System.out.println(zone.getPoints().size());
+					for (int l = 0; l < zone.getPoints().size(); l += 2)
+						Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES (" + (++i) + "," + zone.getPoints().get(l)
+								+ "," + zone.getPoints().get(l + 1) + "," + zone.getIndex() + ");");
+				}
+				ResultSet repsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_REP) FROM REPONSE;");
+				int j = 0;
+				if (repsDB.next()) {
+					j = repsDB.getInt("MAX(ID_REP)");
+				}
+				for (Question qst : themeAModifier.getQuestions()) {
+					k++;
+					for (Zone zone : qst.getReponses())
+						Main.bdd.executeUpdateCmd(
+								"INSERT INTO REPONSE VALUES (" + (++j) + "," + k + "," + zone.getIndex() + ");");
+				}
+
+				VBox root = new VBox();
+
+				SelecThemeController.primaryStage = primaryStage;
+				root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
+				Scene scene = new Scene(root);
+
+				primaryStage.setResizable(false);
+
+				primaryStage.setScene(scene);
+			}
+		} else {
+			changerImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 		}
-
-		VBox root = new VBox();
-
-		SelecThemeController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
-		Scene scene = new Scene(root);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
 	}
 
 	@FXML

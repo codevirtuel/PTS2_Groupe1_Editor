@@ -76,7 +76,8 @@ public class editionCreationQuestionsController {
 
 		for (Zone zone : editionQuestionsZonesController.getThemeAModifier().getZones()) {
 			zone.setOpacity(0.3);
-			zone.setFill(Color.RED);
+			zone.setFill(Color.rgb((int)(Math.random()*150+100), (int)(Math.random()*150+100), (int)(Math.random()*150+100)));
+			zone.setStroke(Color.BLACK);
 			paneImage.getChildren().add(zone);
 		}
 

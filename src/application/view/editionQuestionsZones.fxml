@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -25,9 +26,9 @@
             <Insets bottom="20.0" />
          </VBox.margin>
       </Label>
-      <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="30.0" prefWidth="100.0" text="Thème :">
+            <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" text="Thème :">
                <font>
                   <Font name="Arial" size="18.0" />
                </font>
@@ -38,12 +39,19 @@
                   <Insets />
                </HBox.margin>
             </Label>
-            <TextField fx:id="titreTheme" editable="false" prefHeight="20.0" prefWidth="300.0">
+            <TextField fx:id="titreTheme" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="250.0">
                <HBox.margin>
-                  <Insets right="40.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </TextField>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changerImage" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: lightblue;" text="Changer l'image de fond" />
+            <Button fx:id="changerImage" alignment="CENTER" mnemonicParsing="false" onAction="#changerImage" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: lightblue;" text="Changer l'image de fond">
+               <font>
+                  <Font name="Bauhaus 93" size="10.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Button>
+            <ImageView fx:id="imageFond" fitHeight="30.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
          </children>
          <VBox.margin>
             <Insets bottom="10.0" />
@@ -67,7 +75,7 @@
             </Label>
             <ListView fx:id="listeZones" layoutX="310.0" layoutY="28.0" onKeyReleased="#selectionZone" onMouseClicked="#selectionZone" prefHeight="106.0" prefWidth="310.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
             <Button layoutX="310.0" layoutY="136.0" mnemonicParsing="false" onAction="#gotoCreerZone" text="Créer une nouvelle zone" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="136.0" />
-            <Button fx:id="modifierZone" layoutX="310.0" layoutY="161.0" onAction="#gotoEditZone" mnemonicParsing="false" text="Modifier une zone existante" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="126.0" AnchorPane.topAnchor="161.0" />
+            <Button fx:id="modifierZone" layoutX="310.0" layoutY="161.0" mnemonicParsing="false" onAction="#gotoEditZone" text="Modifier une zone existante" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="126.0" AnchorPane.topAnchor="161.0" />
             <Button fx:id="supprimerZone" layoutX="310.0" layoutY="186.0" mnemonicParsing="false" onAction="#supprimerZone" text="Supprimer une zone existante" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="186.0" />
          </children>
          <VBox.margin>

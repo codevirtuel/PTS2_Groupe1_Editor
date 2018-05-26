@@ -16,7 +16,7 @@ public class ItemListPoint extends HBox {
 	public ItemListPoint(Double x, Double y) {
 		this.x=x;
 		this.y=y;
-		this.setAlignment(Pos.CENTER);
+		this.setAlignment(Pos.CENTER_LEFT);
 		croix = new ImageView(new Image(getClass().getResourceAsStream("../view/croixrouge.jpg")));
 		croix.setFitWidth(10);
 		croix.setFitHeight(10);
