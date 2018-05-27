@@ -72,7 +72,7 @@ public class AjouterThemeController {
 
 	public File copieImage(File image) {
 		File copieData = new File("./src/application/data/" + image.getName());
-		try (InputStream sourceFile = new java.io.FileInputStream(image);
+		try (InputStream sourceFile = new FileInputStream(image);
 				OutputStream destinationFile = new FileOutputStream(copieData)) {
 			byte buffer[] = new byte[512 * 1024];
 			int nbLecture;
@@ -105,7 +105,6 @@ public class AjouterThemeController {
 					themeACreer.setImageFond(null);
 					themeACreer.setUrlImage(null);
 					apercuImage.setImage(null);
-					e.getMessage();
 				}
 			} else {
 				try {
@@ -119,7 +118,6 @@ public class AjouterThemeController {
 					themeACreer.setImageFond(null);
 					themeACreer.setUrlImage(null);
 					apercuImage.setImage(null);
-					e.getMessage();
 				}
 			}
 		}

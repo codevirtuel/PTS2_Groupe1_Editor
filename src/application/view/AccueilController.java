@@ -26,9 +26,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AccueilController {
-	
+
 	public static Stage primaryStage;
-	
+
 	@FXML
 	VBox vbox;
 	@FXML
@@ -39,27 +39,30 @@ public class AccueilController {
 	Button parametres;
 	@FXML
 	Button quitter;
-	
+
+	static AudioInputStream audioIn;
+
 	@FXML
 	public void initialize() {
 		try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(
-                    "src/application/data/musique.wav"));
-            // Get a sound clip resource.
-            Clip clip = AudioSystem.getClip();
-            // Open audio clip and load samples from the audio input stream.
-            clip.open(audioIn);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-		Scaler.updateSize(Main.width,vbox);
+			if (audioIn == null) {
+				audioIn = AudioSystem.getAudioInputStream(new File("src/application/data/musique.wav"));
+				// Get a sound clip resource.
+				Clip clip = AudioSystem.getClip();
+				// Open audio clip and load samples from the audio input stream.
+				clip.open(audioIn);
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		Scaler.updateSize(Main.width, vbox);
 	}
-	
+
 	@FXML
 	public void gotoAjoutTheme() throws IOException {
 		VBox root = new VBox();
@@ -67,12 +70,12 @@ public class AccueilController {
 		AjouterThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("CreationTheme.fxml"));
 		Scene scene = new Scene(root);
-		
+
 		primaryStage.setResizable(false);
 
 		primaryStage.setScene(scene);
 	}
-	
+
 	@FXML
 	public void gotoSelecTheme() throws IOException {
 		VBox root = new VBox();
@@ -80,12 +83,12 @@ public class AccueilController {
 		SelecThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
 		Scene scene = new Scene(root);
-		
+
 		primaryStage.setResizable(false);
 
 		primaryStage.setScene(scene);
 	}
-	
+
 	@FXML
 	public void gotoParams() throws IOException {
 		VBox root = new VBox();
@@ -93,15 +96,15 @@ public class AccueilController {
 		parametresController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("parametres.fxml"));
 		Scene scene = new Scene(root);
-		
+
 		primaryStage.setResizable(false);
 
 		primaryStage.setScene(scene);
 	}
-	
+
 	@FXML
 	public void quit() throws IOException {
 		primaryStage.close();
 	}
-	
+
 }
