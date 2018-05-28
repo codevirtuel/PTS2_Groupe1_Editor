@@ -31,6 +31,19 @@ public class AccueilController {
 	}
 	
 	@FXML
+	public void gotoAjoutTheme() throws IOException {
+		VBox root = new VBox();
+
+		AjouterThemeController.primaryStage = primaryStage;
+		root = FXMLLoader.load(getClass().getResource("CreationTheme.fxml"));
+		Scene scene = new Scene(root);
+		
+		primaryStage.setResizable(false);
+
+		primaryStage.setScene(scene);
+	}
+	
+	@FXML
 	public void gotoSelecTheme() throws IOException {
 		VBox root = new VBox();
 

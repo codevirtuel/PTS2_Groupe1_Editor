@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -47,6 +49,10 @@ public class editionQuestionsZonesController {
 		editionQuestionsZonesController.themeAModifier = themeAModifier;
 	}
 
+	static int idZoneMax;
+
+	Font fontLblUpSize;
+
 	@FXML
 	VBox vbox;
 	@FXML
@@ -65,36 +71,23 @@ public class editionQuestionsZonesController {
 	Button changerImage;
 	@FXML
 	TextField titreTheme;
+	@FXML
+	ImageView imageFond;
 
 	@FXML
 	public void initialize() {
+		fontLblUpSize = Font.font(Main.POLICE, 12);
+		System.out.println(idZoneMax + "      zone zone nb Max");
 		titreTheme.setText(themeAModifier.getNom());
 		modifierQuestion.setDisable(true);
 		supprimerQuestion.setDisable(true);
 		modifierZone.setDisable(true);
 		supprimerZone.setDisable(true);
-		Label lblTheme = new Label("Aucune ...");
-		lblTheme.setAlignment(Pos.CENTER);
-		lblTheme.setTextAlignment(TextAlignment.CENTER);
-		lblTheme.setFont(Font.font(Main.POLICE, 12));
-		listeQuestions.getItems().add(lblTheme);
-		for (Question question : themeAModifier.getQuestions()) {
-			lblTheme = new Label(question.getIntitule());
-			lblTheme.setAlignment(Pos.CENTER);
-			lblTheme.setTextAlignment(TextAlignment.CENTER);
-			lblTheme.setFont(Font.font(Main.POLICE, 12));
-			listeQuestions.getItems().add(lblTheme);
-			System.out.println(question.getIntitule() + " " + listeQuestions.getItems().size());
-		}
-		for (Zone zone : themeAModifier.getZones()) {
-			lblTheme = new Label(zone.toString());
-			lblTheme.setAlignment(Pos.CENTER);
-			lblTheme.setTextAlignment(TextAlignment.CENTER);
-			lblTheme.setFont(Font.font(Main.POLICE, 12));
-			listeZones.getItems().add(lblTheme);
-			System.out.println(zone.toString() + " " + listeZones.getItems().size());
-		}
+		setListeQuestions(themeAModifier.getQuestions());
+		setListeZonesWithQuestion(null);
+		imageFond.setImage(themeAModifier.getImageFond());
 		Scaler.updateSize(Main.width, vbox);
+		fontLblUpSize = listeQuestions.getItems().get(0).getFont();
 	}
 
 	@FXML
@@ -122,23 +115,24 @@ public class editionQuestionsZonesController {
 			}
 			themeAModifier.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
 			themeAModifier.setUrlImage(copieData.getName());
+			imageFond.setImage(themeAModifier.getImageFond());
 		}
 	}
 
 	@FXML
 	public void selectionQuestion() {
-		if (listeQuestions.getSelectionModel().getSelectedItem() != null
-				&& !listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
-			modifierQuestion.setDisable(false);
-			supprimerQuestion.setDisable(false);
-			for (Question question : themeAModifier.getQuestions())
-				if (question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
-					setListeZonesWithQuestion(question);
-		} else if (listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
-			setListeZonesWithQuestion(null);
-			modifierQuestion.setDisable(true);
-			supprimerQuestion.setDisable(true);
-		}
+		if (listeQuestions.getSelectionModel().getSelectedItem() != null)
+			if (!listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
+				modifierQuestion.setDisable(false);
+				supprimerQuestion.setDisable(false);
+				for (Question question : themeAModifier.getQuestions())
+					if (question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+						setListeZonesWithQuestion(question);
+			} else {
+				setListeZonesWithQuestion(null);
+				modifierQuestion.setDisable(true);
+				supprimerQuestion.setDisable(true);
+			}
 	}
 
 	@FXML
@@ -146,18 +140,60 @@ public class editionQuestionsZonesController {
 		if (listeZones.getSelectionModel().getSelectedItem() != null) {
 			modifierZone.setDisable(false);
 			supprimerZone.setDisable(false);
+		} else {
+			modifierZone.setDisable(true);
+			supprimerZone.setDisable(true);
+		}
+	}
+
+	@FXML
+	public void supprimerQuestion() {
+		Label qstLbl = listeQuestions.getSelectionModel().getSelectedItem();
+		if (qstLbl != null) {
+			Question qstTmp = null;
+			for (Question qst : themeAModifier.getQuestions())
+				if (qst.getIntitule().equals(qstLbl.getText()))
+					qstTmp = qst;
+			themeAModifier.getQuestions().remove(qstTmp);
+			setListeQuestions(themeAModifier.getQuestions());
+			selectionQuestion();
+		}
+	}
+
+	@FXML
+	public void supprimerZone() {
+		Label zoneLbl = listeZones.getSelectionModel().getSelectedItem();
+		if (zoneLbl != null) {
+			Zone zoneTmp = null;
+			for (Zone zone : themeAModifier.getZones())
+				if (zone.toString().equals(zoneLbl.getText()))
+					zoneTmp = zone;
+			themeAModifier.getZones().remove(zoneTmp);
+			Question repTmp = null;
+			for (Question qst : themeAModifier.getQuestions())
+				for (Zone rep : qst.getReponses())
+					if (rep == zoneTmp) {
+						qst.getReponses().remove(rep);
+						break;
+					}
+			Question qstTmp = null;
+			if (listeQuestions.getSelectionModel().getSelectedItem() != null)
+				for (Question qst : themeAModifier.getQuestions())
+					if (qst.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
+						qstTmp = qst;
+			setListeZonesWithQuestion(qstTmp);
+			selectionZone();
 		}
 	}
 
 	private void setListeZonesWithQuestion(Question question) {
-		Font fontLbl = listeQuestions.getSelectionModel().getSelectedItem().getFont();
 		listeZones.getItems().clear();
 		if (question != null)
 			for (Zone zone : question.getReponses()) {
 				Label lblTheme = new Label(zone.toString());
 				lblTheme.setAlignment(Pos.CENTER);
 				lblTheme.setTextAlignment(TextAlignment.CENTER);
-				lblTheme.setFont(fontLbl);
+				lblTheme.setFont(fontLblUpSize);
 				listeZones.getItems().add(lblTheme);
 				System.out.println(zone.toString() + " " + listeZones.getItems().size());
 			}
@@ -166,10 +202,29 @@ public class editionQuestionsZonesController {
 				Label lblTheme = new Label(zone.toString());
 				lblTheme.setAlignment(Pos.CENTER);
 				lblTheme.setTextAlignment(TextAlignment.CENTER);
-				lblTheme.setFont(fontLbl);
+				lblTheme.setFont(fontLblUpSize);
 				listeZones.getItems().add(lblTheme);
 				System.out.println(zone.toString() + " " + listeZones.getItems().size());
 			}
+	}
+
+	private void setListeQuestions(List<Question> questions) {
+		listeQuestions.getItems().clear();
+		Label lblTheme = new Label("Aucune ...");
+		lblTheme.setAlignment(Pos.CENTER);
+		lblTheme.setTextAlignment(TextAlignment.CENTER);
+		lblTheme.setFont(fontLblUpSize);
+		listeQuestions.getItems().add(lblTheme);
+		if (questions != null)
+			for (Question qst : questions) {
+				lblTheme = new Label(qst.getIntitule());
+				lblTheme.setAlignment(Pos.CENTER);
+				lblTheme.setTextAlignment(TextAlignment.CENTER);
+				lblTheme.setFont(fontLblUpSize);
+				listeQuestions.getItems().add(lblTheme);
+				System.out.println(qst.getIntitule() + " " + listeQuestions.getItems().size());
+			}
+		System.out.println(listeQuestions.getItems().size());
 	}
 
 	@FXML
@@ -193,7 +248,7 @@ public class editionQuestionsZonesController {
 		} else
 			changerImage.setStyle("-fx-border-color: red;-fx-border-color: red;-fx-border-width: 2px;");
 	}
-	
+
 	@FXML
 	public void gotoEditQuestion() {
 		if (themeAModifier.getImageFond() != null) {
@@ -222,11 +277,8 @@ public class editionQuestionsZonesController {
 	@FXML
 	public void gotoCreerZone() {
 		if (themeAModifier.getImageFond() != null) {
-			int idMax=0;
-			for(Zone zone : themeAModifier.getZones())
-				if(zone.getIndex()>idMax)
-					idMax=zone.getIndex();
-			Zone newZ = new Zone(idMax+1);
+			Zone newZ = new Zone(idZoneMax);
+			idZoneMax++;
 			themeAModifier.addZone(newZ);
 			EditionCreationZonesController.setZone(newZ);
 
@@ -272,41 +324,87 @@ public class editionQuestionsZonesController {
 
 	@FXML
 	public void sauvegarder() throws IOException, SQLException {
-		System.out.println(themeAModifier.getUrlImage());
-		Main.bdd.executeUpdateCmd("DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"');");
-		Main.bdd.executeUpdateCmd("DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"');");
-		Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
-		Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
-		Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='"+themeAModifier.getNom()+"';");
-		//AJOUTER QUERY POUR SAUVEGARDER
-		Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('"+themeAModifier.getNom()+"','"+themeAModifier.getUrlImage()+"');");
-		int i=0;
-		for(Question qst : themeAModifier.getQuestions())
-			Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES ("+(++i)+",'"+qst.getIntitule()+"','"+themeAModifier.getNom()+"');");
-		i=0;
-		for(Zone zone : themeAModifier.getZones()) {
-			Main.bdd.executeUpdateCmd("INSERT INTO ZONE VALUES ("+zone.getIndex()+",'"+themeAModifier.getNom()+"');");
-			System.out.println(zone.getPoints().size());
-			for(int k=0; k<zone.getPoints().size(); k+=2)
-				Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES ("+(++i)+","+zone.getPoints().get(k)+","+zone.getPoints().get(k+1)+","+zone.getIndex()+");");
+		System.out.println("save");
+		if (themeAModifier.getImageFond() != null) {
+			changerImage.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
+			ResultSet listeTheme = Main.bdd.executeQueryCmd("SELECT NOM_THEME FROM THEME;");
+			boolean unuse = true;
+			while (listeTheme.next())
+				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom()) && listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
+					unuse = false;
+					titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
+				}
+			if (titreTheme.getText().length() < 2) {
+				unuse = false;
+				titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
+			}
+			if (unuse) {
+				titreTheme.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
+				System.out.println(themeAModifier.getUrlImage());
+				Main.bdd.executeUpdateCmd(
+						"DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+								+ themeAModifier.getNom() + "');");
+				Main.bdd.executeUpdateCmd(
+						"DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
+								+ themeAModifier.getNom() + "');");
+				Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+				// AJOUTER QUERY POUR SAUVEGARDER
+				themeAModifier.setNom(titreTheme.getText());
+				Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeAModifier.getNom() + "','"
+						+ themeAModifier.getUrlImage() + "');");
+				ResultSet qustsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_QUESTION) FROM QUESTION;");
+				int i = 0;
+				if (qustsDB.next()) {
+					System.out.println(qustsDB.getInt("MAX(ID_QUESTION)"));
+					i = qustsDB.getInt("MAX(ID_QUESTION)");
+				}
+				int k = i;
+				for (Question qst : themeAModifier.getQuestions()) {
+					Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES (" + (++i) + ",'" + qst.getIntitule() + "','"
+							+ themeAModifier.getNom() + "');");
+					System.out.println("INSERT INTO QUESTION VALUES (" + (i) + ",'" + qst.getIntitule() + "','"
+							+ themeAModifier.getNom() + "');");
+				}
+				ResultSet pointsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_POINT) FROM POINT;");
+				i = 0;
+				if (pointsDB.next()) {
+					i = pointsDB.getInt("MAX(ID_POINT)");
+				}
+				for (Zone zone : themeAModifier.getZones()) {
+					Main.bdd.executeUpdateCmd(
+							"INSERT INTO ZONE VALUES (" + zone.getIndex() + ",'" + themeAModifier.getNom() + "');");
+					System.out.println(zone.getPoints().size());
+					for (int l = 0; l < zone.getPoints().size(); l += 2)
+						Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES (" + (++i) + "," + zone.getPoints().get(l)
+								+ "," + zone.getPoints().get(l + 1) + "," + zone.getIndex() + ");");
+				}
+				ResultSet repsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_REP) FROM REPONSE;");
+				int j = 0;
+				if (repsDB.next()) {
+					j = repsDB.getInt("MAX(ID_REP)");
+				}
+				for (Question qst : themeAModifier.getQuestions()) {
+					k++;
+					for (Zone zone : qst.getReponses())
+						Main.bdd.executeUpdateCmd(
+								"INSERT INTO REPONSE VALUES (" + (++j) + "," + k + "," + zone.getIndex() + ");");
+				}
+
+				VBox root = new VBox();
+
+				SelecThemeController.primaryStage = primaryStage;
+				root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
+				Scene scene = new Scene(root);
+
+				primaryStage.setResizable(false);
+
+				primaryStage.setScene(scene);
+			}
+		} else {
+			changerImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 		}
-		i=0;
-		int j=0;
-		for(Question qst : themeAModifier.getQuestions()) {
-			i++;
-			for(Zone zone : qst.getReponses())
-				Main.bdd.executeUpdateCmd("INSERT INTO REPONSE VALUES ("+(++j)+","+i+","+zone.getIndex()+");");
-		}
-		
-		VBox root = new VBox();
-
-		SelecThemeController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
-		Scene scene = new Scene(root);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
 	}
 
 	@FXML

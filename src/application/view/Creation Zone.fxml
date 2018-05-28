@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" spacing="5.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.EditionCreationZonesController">
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="5.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.EditionCreationZonesController">
    <children>
       <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="640.0" text="- Création / Edition d'une zone -" textAlignment="CENTER">
          <font>
@@ -35,33 +35,19 @@
                      </font>
                   </Label>
                   <ListView fx:id="points" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="230.0" />
-                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="230.0">
-                     <children>
-                        <Label text="X">
-                           <font>
-                              <Font name="Gabriola" size="21.0" />
-                           </font>
-                        </Label>
-                        <TextField prefHeight="23.0" prefWidth="24.0" />
-                        <Label text="Y">
-                           <font>
-                              <Font name="Gabriola" size="21.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="25.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField prefHeight="21.0" prefWidth="25.0" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" text="Ajouter un point">
-                           <HBox.margin>
-                              <Insets left="25.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
+                  <Button fx:id="btNewZone" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#creerNewZone" prefHeight="25.0" prefWidth="200.0" text="Créer une nouvelle zone">
                      <VBox.margin>
-                        <Insets top="15.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
-                  </HBox>
+                  </Button>
+                  <Label fx:id="txtErreur" alignment="CENTER" textAlignment="CENTER" textFill="#5e1010" underline="true" wrapText="true">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Curlz MT" size="12.0" />
+                     </font>
+                  </Label>
                </children>
                <HBox.margin>
                   <Insets right="5.0" />
@@ -71,12 +57,20 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="640.0">
          <children>
+            <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" text="/!\ Pour éviter tout conflit lors de l'utilisation de ce thème, veuillez ne pas créer de zones superposée. Sauf si telle est votre intention." textAlignment="JUSTIFY" textFill="#a10000" wrapText="true">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Bookman Old Style" size="12.0" />
+               </font>
+            </Label>
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Valider">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Quitter">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#quitter" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Quitter">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin></Button>
