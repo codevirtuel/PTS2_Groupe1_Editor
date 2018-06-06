@@ -13,6 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import application.database.Connect;
 
 import application.view.AccueilController;
+import application.view.Interface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -48,14 +49,7 @@ public class Main extends Application {
 			VBox root = new VBox();
 			Main.primaryStage=primaryStage;
 
-			root = FXMLLoader.load(getClass().getResource("view/Editeur - Accueil.fxml"));
-
-			Scene scene = new Scene(root,width,height);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-			primaryStage.setResizable(false);
-
-			primaryStage.setScene(scene);
+			changeInterface(Interface.ACCUEIL);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -76,10 +70,10 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	public static void changeInterface(String inter) {
+	public static void changeInterface(Interface inter) {
 		VBox root = new VBox();
 		try {
-			root = FXMLLoader.load(Main.class.getResource(inter));
+			root = FXMLLoader.load(Main.class.getResource("view/"+inter.toString()));
 		} catch (IOException e) {
 			System.err.println("===========================\nErreur dans la fonction changeInterface()\n===========================");
 		}

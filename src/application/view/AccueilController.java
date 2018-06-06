@@ -44,15 +44,15 @@ public class AccueilController {
 	}
 
 	public void gotoAjoutTheme() throws IOException {
-		Main.changeInterface("view/CreationTheme.fxml");
+		Main.changeInterface(Interface.AJOUT_THEME);
 	}
 
 	public void gotoSelecTheme() throws IOException {
-		Main.changeInterface("view/selectionnerTheme.fxml");
+		Main.changeInterface(Interface.SELECTION_THEME);
 	}
 
 	public void gotoParams() throws IOException {
-		Main.changeInterface("view/parametres.fxml");
+		Main.changeInterface(Interface.PARAMETRES);
 	}
 
 	public void quit() throws IOException {
