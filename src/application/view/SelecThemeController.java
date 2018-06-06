@@ -27,8 +27,6 @@ import javafx.stage.Stage;
 
 public class SelecThemeController {
 
-	public static Stage primaryStage;
-
 	@FXML
 	VBox vbox;
 	@FXML
@@ -97,14 +95,13 @@ public class SelecThemeController {
 		
 		editionQuestionsZonesController.setThemeAModifier(chargerTheme(listeThemes.getSelectionModel().getSelectedItem().getText()));
 
-		editionQuestionsZonesController.primaryStage = primaryStage;
 		try {
 			VBox root = null;
 			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 			Scene scene = new Scene(root, Main.width, Main.height);
-			primaryStage.setResizable(false);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Main.primaryStage.setResizable(false);
+			Main.primaryStage.setScene(scene);
+			Main.primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -163,7 +160,6 @@ public class SelecThemeController {
 
 	@FXML
 	public void annuler() {
-		AccueilController.primaryStage = primaryStage;
 		VBox root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("Editeur - Accueil.fxml"));
@@ -172,9 +168,9 @@ public class SelecThemeController {
 		}
 		Scene scene = new Scene(root, Main.width, Main.height);
 
-		primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		Main.primaryStage.setScene(scene);
+		Main.primaryStage.show();
 	}
 }

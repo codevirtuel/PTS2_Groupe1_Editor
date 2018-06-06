@@ -31,7 +31,6 @@ import javafx.stage.Stage;
 
 public class EditionCreationZonesController {
 
-	public static Stage primaryStage;
 	public static Question questionAssociation;
 	private static Zone zoneAModifier;
 	private Zone sauvegardeZone;
@@ -180,27 +179,25 @@ public class EditionCreationZonesController {
 			if (questionAssociation == null) {
 				VBox root = new VBox();
 
-				editionQuestionsZonesController.primaryStage = primaryStage;
 				root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 				Scene scene = new Scene(root);
 
-				primaryStage.setResizable(false);
+				Main.primaryStage.setResizable(false);
 
-				primaryStage.setScene(scene);
+				Main.primaryStage.setScene(scene);
 			} else {
 				questionAssociation.getReponses().add(zoneAModifier);
 				editionCreationQuestionsController.setQuestion(questionAssociation);
 
 				editionQuestionsZonesController.getThemeAModifier().addZone(zoneAModifier);
-				editionCreationQuestionsController.primaryStage = primaryStage;
 				questionAssociation = null;
 				try {
 					VBox root = null;
 					root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
 					Scene scene = new Scene(root, Main.width, Main.height);
-					primaryStage.setResizable(false);
-					primaryStage.setScene(scene);
-					primaryStage.show();
+					Main.primaryStage.setResizable(false);
+					Main.primaryStage.setScene(scene);
+					Main.primaryStage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -221,9 +218,9 @@ public class EditionCreationZonesController {
 					VBox root = null;
 					root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
 					Scene scene = new Scene(root, Main.width, Main.height);
-					primaryStage.setResizable(false);
-					primaryStage.setScene(scene);
-					primaryStage.show();
+					Main.primaryStage.setResizable(false);
+					Main.primaryStage.setScene(scene);
+					Main.primaryStage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -237,9 +234,9 @@ public class EditionCreationZonesController {
 					VBox root = null;
 					root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
 					Scene scene = new Scene(root, Main.width, Main.height);
-					primaryStage.setResizable(false);
-					primaryStage.setScene(scene);
-					primaryStage.show();
+					Main.primaryStage.setResizable(false);
+					Main.primaryStage.setScene(scene);
+					Main.primaryStage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -256,26 +253,24 @@ public class EditionCreationZonesController {
 			editionQuestionsZonesController.getThemeAModifier().getZones().remove(zoneAModifier);
 		VBox root = new VBox();
 
-		SelecThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 		Scene scene = new Scene(root);
 
-		primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
+		Main.primaryStage.setScene(scene);
 		}
 		else {
 			editionCreationQuestionsController.setQuestion(questionAssociation);
 
-			editionCreationQuestionsController.primaryStage = primaryStage;
 			questionAssociation = null;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
 				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				Main.primaryStage.setResizable(false);
+				Main.primaryStage.setScene(scene);
+				Main.primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

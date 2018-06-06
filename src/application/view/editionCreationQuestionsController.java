@@ -1,10 +1,8 @@
 package application.view;
 
-import java.awt.Paint;
 import java.io.IOException;
 
 import application.Main;
-import application.gestionThemes.ItemListPoint;
 import application.gestionThemes.ItemListZone;
 import application.gestionThemes.Question;
 import application.gestionThemes.Zone;
@@ -15,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -26,13 +22,9 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class editionCreationQuestionsController {
 
-	public static Stage primaryStage;
 	private static Question questionAModifier;
 	private Question sauvegardeQuestion;
 
@@ -152,28 +144,26 @@ public class editionCreationQuestionsController {
 		EditionCreationZonesController.questionAssociation = questionAModifier;
 			VBox root = new VBox();
 
-			EditionCreationZonesController.primaryStage = primaryStage;
 			root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
 			Scene scene = new Scene(root);
 
-			primaryStage.setResizable(false);
+			Main.primaryStage.setResizable(false);
 
-			primaryStage.setScene(scene);
+			Main.primaryStage.setScene(scene);
 	}
-	
+
 	@FXML
 	public void valider() throws IOException {
 		questionAModifier.setIntitule(intituleQuestion.getText());
 		if (zones.getItems().size() > 0 && questionAModifier.getIntitule().length() > 2) {
 			VBox root = new VBox();
 
-			SelecThemeController.primaryStage = primaryStage;
 			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 			Scene scene = new Scene(root);
 
-			primaryStage.setResizable(false);
+			Main.primaryStage.setResizable(false);
 
-			primaryStage.setScene(scene);
+			Main.primaryStage.setScene(scene);
 		}
 		else if(zones.getItems().size() > 0) {
 			txtErreur.setText("L'intitulé de la question doit faire plus de 2 caractères.");
@@ -191,12 +181,11 @@ public class editionCreationQuestionsController {
 		questionAModifier.setReponses(sauvegardeQuestion.getReponses());
 		VBox root = new VBox();
 
-		SelecThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 		Scene scene = new Scene(root);
 
-		primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
+		Main.primaryStage.setScene(scene);
 	}
 }

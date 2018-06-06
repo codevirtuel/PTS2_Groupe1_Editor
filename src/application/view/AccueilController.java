@@ -27,8 +27,6 @@ import javafx.stage.Stage;
 
 public class AccueilController {
 
-	public static Stage primaryStage;
-
 	@FXML
 	VBox vbox;
 	@FXML
@@ -40,71 +38,25 @@ public class AccueilController {
 	@FXML
 	Button quitter;
 
-	static AudioInputStream audioIn;
-
 	@FXML
 	public void initialize() {
-		try {
-			if (audioIn == null) {
-				audioIn = AudioSystem.getAudioInputStream(new File("src/application/data/musique.wav"));
-				// Get a sound clip resource.
-				Clip clip = AudioSystem.getClip();
-				// Open audio clip and load samples from the audio input stream.
-				clip.open(audioIn);
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
-			}
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
 		Scaler.updateSize(Main.width, vbox);
 	}
 
-	@FXML
 	public void gotoAjoutTheme() throws IOException {
-		VBox root = new VBox();
-
-		AjouterThemeController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("CreationTheme.fxml"));
-		Scene scene = new Scene(root);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
+		Main.changeInterface("view/CreationTheme.fxml");
 	}
 
-	@FXML
 	public void gotoSelecTheme() throws IOException {
-		VBox root = new VBox();
-
-		SelecThemeController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
-		Scene scene = new Scene(root);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
+		Main.changeInterface("view/selectionnerTheme.fxml");
 	}
 
-	@FXML
 	public void gotoParams() throws IOException {
-		VBox root = new VBox();
-
-		parametresController.primaryStage = primaryStage;
-		root = FXMLLoader.load(getClass().getResource("parametres.fxml"));
-		Scene scene = new Scene(root);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
+		Main.changeInterface("view/parametres.fxml");
 	}
 
-	@FXML
 	public void quit() throws IOException {
-		primaryStage.close();
+		Main.primaryStage.close();
 	}
 
 }

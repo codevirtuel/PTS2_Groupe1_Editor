@@ -40,7 +40,6 @@ public class AjouterThemeController {
 	@FXML
 	ImageView apercuImage;
 
-	static Stage primaryStage;
 	Theme themeACreer;
 
 	@FXML
@@ -59,7 +58,7 @@ public class AjouterThemeController {
 		extensions.add("*.jpeg");
 		extensions.add("*.bmp");
 		explorateur.getExtensionFilters().add(new ExtensionFilter("Toutes les images ...", extensions));
-		File image = explorateur.showOpenDialog(primaryStage);
+		File image = explorateur.showOpenDialog(Main.primaryStage);
 		if (image != null) {
 			System.out.println(image.getAbsolutePath());
 			File copieData = copieImage(image);
@@ -87,38 +86,29 @@ public class AjouterThemeController {
 
 	@FXML
 	public void majFromUrl() throws FileNotFoundException {
-		System.out.println("MAJ FROM URL");
 		if (!urlImage.getText().equals("")) {
 			Pattern urlAbs = Pattern.compile("^[A-Z]{1}:/.+");
-			System.out.println(urlImage.getText());
 			Matcher absMatch = urlAbs.matcher(urlImage.getText().replace("\\", "/"));
-			System.out.println(absMatch.matches());
+			boolean fileFound = true;
+			File copieData = null;
 			if (absMatch.matches()) {
-				try {
-					File copieData = copieImage(new File(urlImage.getText()));
-					themeACreer.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
-					themeACreer.setUrlImage(copieData.getName());
-					apercuImage.setImage(themeACreer.getImageFond());
-					urlImage.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
-				} catch (FileNotFoundException e) {
-					urlImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
-					themeACreer.setImageFond(null);
-					themeACreer.setUrlImage(null);
-					apercuImage.setImage(null);
-				}
+				copieData = copieImage(new File(urlImage.getText()));
 			} else {
-				try {
-					File copieData = new File("./src/application/data/" + urlImage.getText());
-					themeACreer.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
-					themeACreer.setUrlImage(copieData.getName());
-					apercuImage.setImage(themeACreer.getImageFond());
-					urlImage.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
-				} catch (FileNotFoundException e) {
-					urlImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
-					themeACreer.setImageFond(null);
-					themeACreer.setUrlImage(null);
-					apercuImage.setImage(null);
-				}
+				copieData = new File("./src/application/data/" + urlImage.getText());
+			}
+			try {
+				themeACreer.setImageFond(new Image(new FileInputStream(copieData.getAbsolutePath())));
+			} catch (FileNotFoundException e) {
+				fileFound = false;
+				urlImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
+				themeACreer.setImageFond(null);
+				themeACreer.setUrlImage(null);
+				apercuImage.setImage(null);
+			}
+			if (fileFound) {
+				themeACreer.setUrlImage(copieData.getName());
+				apercuImage.setImage(themeACreer.getImageFond());
+				urlImage.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
 			}
 		}
 	}
@@ -136,7 +126,7 @@ public class AjouterThemeController {
 						unuse = false;
 						nomTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 					}
-				if(themeACreer.getNom().length()<2) {
+				if (themeACreer.getNom().length() < 2) {
 					unuse = false;
 					nomTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 				}
@@ -148,17 +138,7 @@ public class AjouterThemeController {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-
-					VBox root = new VBox();
-
-					editionQuestionsZonesController.setThemeAModifier(themeACreer);
-					editionQuestionsZonesController.primaryStage = primaryStage;
-					root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
-					Scene scene = new Scene(root);
-
-					primaryStage.setResizable(false);
-
-					primaryStage.setScene(scene);
+					Main.changeInterface("editionQuestionsZones.fxml");
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -170,19 +150,7 @@ public class AjouterThemeController {
 
 	@FXML
 	public void annuler() {
-		AccueilController.primaryStage = primaryStage;
-		VBox root = null;
-		try {
-			root = FXMLLoader.load(getClass().getResource("Editeur - Accueil.fxml"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Scene scene = new Scene(root, Main.width, Main.height);
-
-		primaryStage.setResizable(false);
-
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		Main.changeInterface("view/Editeur - Accueil.fxml");
 	}
 
 }
