@@ -9,32 +9,32 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
 public class ItemListPoint extends HBox {
-	
-	private Double x,y;
+
+	private Double x, y;
 	private ImageView croix;
-	
+
 	public ItemListPoint(Double x, Double y) {
-		this.x=x;
-		this.y=y;
+		this.x = x;
+		this.y = y;
 		this.setAlignment(Pos.CENTER_LEFT);
-		croix = new ImageView(new Image(getClass().getResourceAsStream("../view/croixrouge.jpg")));
+		croix = new ImageView(new Image("./application/data/croixrouge.jpg"));
 		croix.setFitWidth(10);
 		croix.setFitHeight(10);
 		this.getChildren().add(croix);
-		Label zoneToString = new Label("( "+x.doubleValue()+" ; "+y.doubleValue()+" )");
+		Label zoneToString = new Label("( " + x.doubleValue() + " ; " + y.doubleValue() + " )");
 		zoneToString.setAlignment(Pos.CENTER);
 		zoneToString.setFont(Font.font(Main.POLICE, 12));
 		this.getChildren().add(zoneToString);
 	}
-	
+
 	public ImageView getCroix() {
 		return croix;
 	}
-	
+
 	public Double getY() {
 		return y;
 	}
-	
+
 	public Double getX() {
 		return x;
 	}

@@ -17,7 +17,7 @@ public class ItemListZone extends HBox {
 	public ItemListZone(Zone zone) {
 		this.zone=zone;
 		this.setAlignment(Pos.CENTER);
-		croix = new ImageView(new Image(getClass().getResourceAsStream("../view/croixrouge.jpg")));
+		croix = new ImageView(new Image("./application/data/croixrouge.jpg"));
 		croix.setFitWidth(10);
 		croix.setFitHeight(10);
 		this.getChildren().add(croix);

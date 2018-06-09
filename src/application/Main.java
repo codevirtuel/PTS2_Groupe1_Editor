@@ -46,7 +46,6 @@ public class Main extends Application {
 		}
 		try {
 
-			VBox root = new VBox();
 			Main.primaryStage=primaryStage;
 
 			changeInterface(Interface.ACCUEIL);
@@ -73,9 +72,11 @@ public class Main extends Application {
 	public static void changeInterface(Interface inter) {
 		VBox root = new VBox();
 		try {
+			System.out.println("view/"+inter.toString());
 			root = FXMLLoader.load(Main.class.getResource("view/"+inter.toString()));
 		} catch (IOException e) {
 			System.err.println("===========================\nErreur dans la fonction changeInterface()\n===========================");
+			e.printStackTrace();
 		}
 		Scene scene = new Scene(root, width, height);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());

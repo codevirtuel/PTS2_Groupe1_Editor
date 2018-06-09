@@ -57,17 +57,22 @@ public class EditionCreationZonesController {
 		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());
 		System.out.println("img " + editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth() + ";"
 				+ editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight());
+		
 		double height = paneImage.getPrefHeight(), width = paneImage.getPrefWidth(), rapport = height / width;
+		
 		if (editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
 				* rapport > editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()) {
+			
 			height = width * editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()
 					/ editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth();
 			paneImage.setPrefHeight(height);
 		} else {
+			
 			width = height * editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
 					/ editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight();
 			paneImage.setPrefWidth(width);
 		}
+		
 		BackgroundImage bgImage = new BackgroundImage(
 				editionQuestionsZonesController.getThemeAModifier().getImageFond(), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,

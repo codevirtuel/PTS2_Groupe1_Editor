@@ -138,6 +138,7 @@ public class AjouterThemeController {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+					editionQuestionsZonesController.setThemeAModifier(themeACreer);
 					Main.changeInterface(Interface.EDITION_THEME);
 				}
 			} catch (SQLException e) {
