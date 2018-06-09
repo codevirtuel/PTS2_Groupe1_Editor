@@ -1,5 +1,8 @@
 package application.gestionThemes;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import application.Main;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -17,7 +20,12 @@ public class ItemListZone extends HBox {
 	public ItemListZone(Zone zone) {
 		this.zone=zone;
 		this.setAlignment(Pos.CENTER);
-		croix = new ImageView(new Image("./application/data/croixrouge.jpg"));
+		System.out.println("./src/application/data/croixrouge.jpg");
+		try {
+			croix = new ImageView(new Image(new FileInputStream("./src/application/data/croixrouge.jpg")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		croix.setFitWidth(10);
 		croix.setFitHeight(10);
 		this.getChildren().add(croix);

@@ -158,6 +158,7 @@ public class EditionCreationZonesController {
 	@FXML
 	public void selectionPoint(ItemListPoint point) {
 		System.out.println("clique on pt");
+		if(point!=null)
 		for (Node node : paneImage.getChildren()) {
 			System.out.println(node);
 			if (node instanceof Circle) {

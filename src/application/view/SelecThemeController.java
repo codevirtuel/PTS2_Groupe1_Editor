@@ -148,7 +148,7 @@ public class SelecThemeController {
 				Image imgFond;
 				System.out.println("../data/" + themeBD.getString("URL_IMAGE"));
 				imgFond = new Image(new FileInputStream(
-						getClass().getResource("../data/" + themeBD.getString("URL_IMAGE")).getPath()));
+						"./src/application/data/" + themeBD.getString("URL_IMAGE")));
 				themeTmp.setImageFond(imgFond);
 				themeTmp.setUrlImage(themeBD.getString("URL_IMAGE"));
 			}
