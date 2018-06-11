@@ -109,6 +109,7 @@ public class EditionCreationZonesController {
 
 	@FXML
 	private void addPoint(MouseEvent e) {
+		//add point
 		Circle point = new Circle(3, Color.RED);
 		paneImage.getChildren().add(point);
 		double x, y;
