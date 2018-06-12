@@ -16,18 +16,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.AjouterThemeController">
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgrey;" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.AjouterThemeController">
    <children>
-      <Label text="- Créer un nouveau thème -">
+      <Label styleClass="btTitre" text="- Créer un nouveau thème -">
          <font>
             <Font name="Gabriola" size="33.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="640.0">
          <children>
-            <Label text="Nom du thème* :">
+            <Label styleClass="btSousTitre" text="Nom du thème* :">
                <font>
-                  <Font name="Gabriola" size="24.0" />
+                  <Font name="Gabriola" size="28.0" />
                </font>
             </Label>
             <TextField fx:id="nomTheme" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" />
@@ -35,9 +35,9 @@
       </HBox>
       <HBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="640.0">
          <children>
-            <Label text="Image du thème* :">
+            <Label styleClass="btSousTitre" text="Image du thème* :">
                <font>
-                  <Font name="Gabriola" size="24.0" />
+                  <Font name="Gabriola" size="28.0" />
                </font>
             </Label>
             <TextField fx:id="urlImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#majFromUrl" prefHeight="25.0" prefWidth="250.0">
@@ -45,18 +45,21 @@
                   <Insets right="50.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#changerImage" prefHeight="35.0" prefWidth="116.0" style="-fx-background-color: lightblue;" text="Choisir image">
+            <Button mnemonicParsing="false" onAction="#changerImage" prefHeight="35.0" prefWidth="116.0" style="-fx-background-color: lightblue;" styleClass="btSousTitre" text="Choisir image">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Button>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label text="Aperçu :">
+            <Label styleClass="btSousTitre" text="Aperçu :">
                <font>
-                  <Font name="Gabriola" size="27.0" />
+                  <Font name="Gabriola" size="36.0" />
                </font>
                <HBox.margin>
                   <Insets right="108.0" />
@@ -71,7 +74,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Valider">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" styleClass="btReport" text="Valider">
                <HBox.margin>
                   <Insets right="175.0" />
                </HBox.margin>
@@ -79,7 +82,7 @@
                   <DropShadow color="#0c6e17c4" height="22.0" radius="10.5" width="22.0" />
                </effect>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annuler" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Annuler" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#annuler" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" styleClass="btReport" text="Annuler" textFill="#c3c3c3" />
          </children>
       </HBox>
    </children>

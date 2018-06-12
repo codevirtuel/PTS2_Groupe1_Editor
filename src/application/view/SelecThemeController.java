@@ -27,8 +27,6 @@ import javafx.stage.Stage;
 
 public class SelecThemeController {
 
-	public static Stage primaryStage;
-
 	@FXML
 	VBox vbox;
 	@FXML
@@ -97,14 +95,13 @@ public class SelecThemeController {
 		
 		editionQuestionsZonesController.setThemeAModifier(chargerTheme(listeThemes.getSelectionModel().getSelectedItem().getText()));
 
-		editionQuestionsZonesController.primaryStage = primaryStage;
 		try {
 			VBox root = null;
 			root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
 			Scene scene = new Scene(root, Main.width, Main.height);
-			primaryStage.setResizable(false);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Main.primaryStage.setResizable(false);
+			Main.primaryStage.setScene(scene);
+			Main.primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -149,9 +146,9 @@ public class SelecThemeController {
 			themeBD.next();
 			if (themeBD.getString("URL_IMAGE")!=null) {
 				Image imgFond;
-				System.out.println(getClass().getResource("../data/" + themeBD.getString("URL_IMAGE")).getPath());
+				System.out.println("../data/" + themeBD.getString("URL_IMAGE"));
 				imgFond = new Image(new FileInputStream(
-						getClass().getResource("../data/" + themeBD.getString("URL_IMAGE")).getPath()));
+						"./src/application/data/" + themeBD.getString("URL_IMAGE")));
 				themeTmp.setImageFond(imgFond);
 				themeTmp.setUrlImage(themeBD.getString("URL_IMAGE"));
 			}
@@ -163,7 +160,6 @@ public class SelecThemeController {
 
 	@FXML
 	public void annuler() {
-		AccueilController.primaryStage = primaryStage;
 		VBox root = null;
 		try {
 			root = FXMLLoader.load(getClass().getResource("Editeur - Accueil.fxml"));
@@ -172,9 +168,9 @@ public class SelecThemeController {
 		}
 		Scene scene = new Scene(root, Main.width, Main.height);
 
-		primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		Main.primaryStage.setScene(scene);
+		Main.primaryStage.show();
 	}
 }

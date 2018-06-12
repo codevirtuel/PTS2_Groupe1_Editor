@@ -38,7 +38,6 @@ import javafx.stage.Stage;
 
 public class editionQuestionsZonesController {
 
-	public static Stage primaryStage;
 	private static Theme themeAModifier;
 
 	public static Theme getThemeAModifier() {
@@ -49,7 +48,7 @@ public class editionQuestionsZonesController {
 		editionQuestionsZonesController.themeAModifier = themeAModifier;
 	}
 
-	static int idZoneMax;
+	public static int idZoneMax;
 
 	Font fontLblUpSize;
 
@@ -77,7 +76,6 @@ public class editionQuestionsZonesController {
 	@FXML
 	public void initialize() {
 		fontLblUpSize = Font.font(Main.POLICE, 12);
-		System.out.println(idZoneMax + "      zone zone nb Max");
 		titreTheme.setText(themeAModifier.getNom());
 		modifierQuestion.setDisable(true);
 		supprimerQuestion.setDisable(true);
@@ -100,7 +98,7 @@ public class editionQuestionsZonesController {
 		extensions.add("*.jpeg");
 		extensions.add("*.bmp");
 		explorateur.getExtensionFilters().add(new ExtensionFilter("Toutes les images ...", extensions));
-		File image = explorateur.showOpenDialog(primaryStage);
+		File image = explorateur.showOpenDialog(Main.primaryStage);
 		if (image != null) {
 			File copieData = new File("./src/application/data/" + image.getName());
 			try (InputStream sourceFile = new java.io.FileInputStream(image);
@@ -121,18 +119,17 @@ public class editionQuestionsZonesController {
 
 	@FXML
 	public void selectionQuestion() {
-		if (listeQuestions.getSelectionModel().getSelectedItem() != null)
-			if (!listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
-				modifierQuestion.setDisable(false);
-				supprimerQuestion.setDisable(false);
-				for (Question question : themeAModifier.getQuestions())
-					if (question.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
-						setListeZonesWithQuestion(question);
-			} else {
-				setListeZonesWithQuestion(null);
-				modifierQuestion.setDisable(true);
-				supprimerQuestion.setDisable(true);
-			}
+		if (listeQuestions.getSelectionModel().getSelectedItem() != null
+				&& !listeQuestions.getSelectionModel().getSelectedItem().getText().equals("Aucune ...")) {
+			modifierQuestion.setDisable(false);
+			supprimerQuestion.setDisable(false);
+			setListeZonesWithQuestion(themeAModifier
+					.getQuestionWithIntitule(listeQuestions.getSelectionModel().getSelectedItem().getText()));
+		} else {
+			setListeZonesWithQuestion(null);
+			modifierQuestion.setDisable(true);
+			supprimerQuestion.setDisable(true);
+		}
 	}
 
 	@FXML
@@ -150,11 +147,7 @@ public class editionQuestionsZonesController {
 	public void supprimerQuestion() {
 		Label qstLbl = listeQuestions.getSelectionModel().getSelectedItem();
 		if (qstLbl != null) {
-			Question qstTmp = null;
-			for (Question qst : themeAModifier.getQuestions())
-				if (qst.getIntitule().equals(qstLbl.getText()))
-					qstTmp = qst;
-			themeAModifier.getQuestions().remove(qstTmp);
+			themeAModifier.getQuestions().remove(themeAModifier.getQuestionWithIntitule(qstLbl.getText()));
 			setListeQuestions(themeAModifier.getQuestions());
 			selectionQuestion();
 		}
@@ -164,24 +157,18 @@ public class editionQuestionsZonesController {
 	public void supprimerZone() {
 		Label zoneLbl = listeZones.getSelectionModel().getSelectedItem();
 		if (zoneLbl != null) {
-			Zone zoneTmp = null;
-			for (Zone zone : themeAModifier.getZones())
-				if (zone.toString().equals(zoneLbl.getText()))
-					zoneTmp = zone;
+			Zone zoneTmp = themeAModifier.getZoneWithProperties(zoneLbl.getText());
 			themeAModifier.getZones().remove(zoneTmp);
-			Question repTmp = null;
 			for (Question qst : themeAModifier.getQuestions())
 				for (Zone rep : qst.getReponses())
 					if (rep == zoneTmp) {
 						qst.getReponses().remove(rep);
 						break;
 					}
-			Question qstTmp = null;
 			if (listeQuestions.getSelectionModel().getSelectedItem() != null)
-				for (Question qst : themeAModifier.getQuestions())
-					if (qst.getIntitule().equals(listeQuestions.getSelectionModel().getSelectedItem().getText()))
-						qstTmp = qst;
-			setListeZonesWithQuestion(qstTmp);
+				setListeZonesWithQuestion(themeAModifier.getQuestionWithIntitule(listeQuestions.getSelectionModel().getSelectedItem().getText()));
+			else
+				setListeZonesWithQuestion(null);
 			selectionZone();
 		}
 	}
@@ -234,14 +221,13 @@ public class editionQuestionsZonesController {
 			themeAModifier.addQuestion(newQ);
 			editionCreationQuestionsController.setQuestion(newQ);
 
-			editionCreationQuestionsController.primaryStage = primaryStage;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
 				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				Main.primaryStage.setResizable(false);
+				Main.primaryStage.setScene(scene);
+				Main.primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -259,14 +245,13 @@ public class editionQuestionsZonesController {
 			System.out.println(qSelect + " : " + qSelect.getIntitule());
 			editionCreationQuestionsController.setQuestion(qSelect);
 
-			editionCreationQuestionsController.primaryStage = primaryStage;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("creationEditionQuestions.fxml"));
 				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				Main.primaryStage.setResizable(false);
+				Main.primaryStage.setScene(scene);
+				Main.primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -282,14 +267,13 @@ public class editionQuestionsZonesController {
 			themeAModifier.addZone(newZ);
 			EditionCreationZonesController.setZone(newZ);
 
-			EditionCreationZonesController.primaryStage = primaryStage;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
 				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				Main.primaryStage.setResizable(false);
+				Main.primaryStage.setScene(scene);
+				Main.primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -307,14 +291,13 @@ public class editionQuestionsZonesController {
 			System.out.println(zSelect + " : " + zSelect.getIndex());
 			EditionCreationZonesController.setZone(zSelect);
 
-			EditionCreationZonesController.primaryStage = primaryStage;
 			try {
 				VBox root = null;
 				root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
 				Scene scene = new Scene(root, Main.width, Main.height);
-				primaryStage.setResizable(false);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				Main.primaryStage.setResizable(false);
+				Main.primaryStage.setScene(scene);
+				Main.primaryStage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -330,7 +313,8 @@ public class editionQuestionsZonesController {
 			ResultSet listeTheme = Main.bdd.executeQueryCmd("SELECT NOM_THEME FROM THEME;");
 			boolean unuse = true;
 			while (listeTheme.next())
-				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom()) && listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
+				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom())
+						&& listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
 					unuse = false;
 					titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 				}
@@ -394,13 +378,12 @@ public class editionQuestionsZonesController {
 
 				VBox root = new VBox();
 
-				SelecThemeController.primaryStage = primaryStage;
 				root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
 				Scene scene = new Scene(root);
 
-				primaryStage.setResizable(false);
+				Main.primaryStage.setResizable(false);
 
-				primaryStage.setScene(scene);
+				Main.primaryStage.setScene(scene);
 			}
 		} else {
 			changerImage.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
@@ -411,12 +394,11 @@ public class editionQuestionsZonesController {
 	public void quitter() throws IOException {
 		VBox root = new VBox();
 
-		SelecThemeController.primaryStage = primaryStage;
 		root = FXMLLoader.load(getClass().getResource("selectionnerTheme.fxml"));
 		Scene scene = new Scene(root);
 
-		primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-		primaryStage.setScene(scene);
+		Main.primaryStage.setScene(scene);
 	}
 }

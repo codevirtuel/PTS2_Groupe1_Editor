@@ -1,1 +1,35 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+@font-face {
+    src: url("data/font/traveling_typewriter/TravelingTypewriter.ttf");
+}
+@font-face {
+    src: url("data/font/broken_heart/1942.ttf");
+}
+@font-face {
+    src: url("data/font/slow_life/Slow_Life.ttf");
+}
+@font-face {
+    src: url("data/font/im_wunderland/Im_Wunderland.otf");
+}
+
+.btTitre {
+	-fx-font-family: "Traveling _Typewriter" , sans-serif;
+}
+
+.btSousTitre {
+	-fx-font-family: "Slow Life" , sans-serif;
+}
+
+.btReport {
+	-fx-font-family: "1942 report" , sans-serif;
+	-fx-background-radius: 30%;
+}
+
+.btAutre {
+	-fx-font-family: "Im Wunderland" , sans-serif;
+}
+
+.fond {
+	-fx-background-image: url("data/fonds/fond.jpg");
+	-fx-background-size: 100%;
+}

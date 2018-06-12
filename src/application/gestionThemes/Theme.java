@@ -39,11 +39,24 @@ public class Theme {
 	public List<Question> getQuestions() {
 		return questions;
 	}
+	
+	public Question getQuestionWithIntitule(String intitule) {
+		for (Question question : this.getQuestions())
+			if (question.getIntitule().equals(intitule))
+				return question;
+		return null;
+	}
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
 	public List<Zone> getZones() {
 		return zones;
+	}
+	public Zone getZoneWithProperties(String toString) {
+		for (Zone zone : this.getZones())
+			if (zone.toString().equals(toString))
+				return zone;
+		return null;
 	}
 	public void setZones(List<Zone> zones) {
 		this.zones = zones;
