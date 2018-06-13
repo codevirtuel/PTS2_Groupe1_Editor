@@ -182,7 +182,7 @@ public class editionCreationQuestionsController {
 			questionAModifier.setReponses(sauvegardeQuestion.getReponses());
 		}
 		else {
-			editionQuestionsZonesController.getThemeAModifier().getZones().remove(questionAModifier);
+			editionQuestionsZonesController.getThemeAModifier().getQuestions().remove(questionAModifier);
 		}
 		VBox root = new VBox();
 
