@@ -75,16 +75,6 @@ public class editionQuestionsZonesController {
 
 	@FXML
 	public void initialize() {
-		ResultSet zonesDB;
-		try {
-			zonesDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_ZONE) FROM ZONE;");
-			editionQuestionsZonesController.idZoneMax = 1;
-			if (zonesDB.next()) {
-				editionQuestionsZonesController.idZoneMax = zonesDB.getInt("MAX(ID_ZONE)") + 1;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		fontLblUpSize = Font.font(Main.POLICE, 12);
 		titreTheme.setText(themeAModifier.getNom());
 		modifierQuestion.setDisable(true);
@@ -273,6 +263,7 @@ public class editionQuestionsZonesController {
 	public void gotoCreerZone() {
 		if (themeAModifier.getImageFond() != null) {
 			Zone newZ = new Zone(idZoneMax);
+			System.out.println(idZoneMax);
 			idZoneMax++;
 			themeAModifier.addZone(newZ);
 			EditionCreationZonesController.setZone(newZ);

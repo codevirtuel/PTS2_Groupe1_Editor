@@ -218,6 +218,7 @@ public class EditionCreationZonesController {
 		if (points.getItems().size() > 2) {
 			if (questionAssociation == null) {
 				Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+				System.out.println(editionQuestionsZonesController.idZoneMax);
 				editionQuestionsZonesController.idZoneMax++;
 				editionQuestionsZonesController.getThemeAModifier().addZone(newZ);
 				EditionCreationZonesController.setZone(newZ);

@@ -45,8 +45,10 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void initialize() {
-		sauvegardeQuestion = new Question(questionAModifier.getIntitule());
-		sauvegardeQuestion.setReponses(questionAModifier.getReponses());
+		if(!questionAModifier.getIntitule().equals("")) {
+			sauvegardeQuestion = new Question(questionAModifier.getIntitule());
+			sauvegardeQuestion.setReponses(questionAModifier.getReponses());
+		}
 		double height = paneImage.getPrefHeight(), width = paneImage.getPrefWidth(), rapport = height / width;
 		if (editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
 				* rapport > editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()) {
@@ -175,8 +177,13 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void quitter() throws IOException {
-		questionAModifier.setIntitule(sauvegardeQuestion.getIntitule());
-		questionAModifier.setReponses(sauvegardeQuestion.getReponses());
+		if(sauvegardeQuestion != null) {
+			questionAModifier.setIntitule(sauvegardeQuestion.getIntitule());
+			questionAModifier.setReponses(sauvegardeQuestion.getReponses());
+		}
+		else {
+			editionQuestionsZonesController.getThemeAModifier().getZones().remove(questionAModifier);
+		}
 		VBox root = new VBox();
 
 		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));

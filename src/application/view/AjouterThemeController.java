@@ -138,6 +138,16 @@ public class AjouterThemeController {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+					ResultSet zonesDB;
+					try {
+						zonesDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_ZONE) FROM ZONE;");
+						editionQuestionsZonesController.idZoneMax = 1;
+						if (zonesDB.next()) {
+							editionQuestionsZonesController.idZoneMax = zonesDB.getInt("MAX(ID_ZONE)") + 1;
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					editionQuestionsZonesController.setThemeAModifier(themeACreer);
 					Main.changeInterface(Interface.EDITION_THEME);
 				}

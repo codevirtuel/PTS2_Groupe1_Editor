@@ -20,9 +20,9 @@ public class ItemListZone extends HBox {
 	public ItemListZone(Zone zone) {
 		this.zone=zone;
 		this.setAlignment(Pos.CENTER);
-		System.out.println("./src/application/data/croixrouge.jpg");
+		System.out.println("./src/application/data/croixrouge.png");
 		try {
-			croix = new ImageView(new Image(new FileInputStream("./src/application/data/croixrouge.jpg")));
+			croix = new ImageView(new Image(new FileInputStream("./src/application/data/croixrouge.png")));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
