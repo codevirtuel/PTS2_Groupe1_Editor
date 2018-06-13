@@ -82,17 +82,6 @@ public class SelecThemeController {
 
 	@FXML
 	public void gotoEditTheme() {
-		ResultSet zonesDB;
-		try {
-			zonesDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_ZONE) FROM ZONE;");
-			editionQuestionsZonesController.idZoneMax = 1;
-			if (zonesDB.next()) {
-				editionQuestionsZonesController.idZoneMax = zonesDB.getInt("MAX(ID_ZONE)") + 1;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		editionQuestionsZonesController.setThemeAModifier(chargerTheme(listeThemes.getSelectionModel().getSelectedItem().getText()));
 
 		try {

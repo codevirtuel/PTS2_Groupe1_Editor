@@ -79,10 +79,8 @@ public class editionCreationQuestionsController {
 					(int) (Math.random() * 150 + 100)));
 			zone.setStroke(Color.BLACK);
 			zone.setStrokeWidth(1);
-			Label numero = new Label("" + zone.getIndex());
 			System.out.println(zone.getBoundsInLocal());
 			paneImage.getChildren().add(zone);
-			paneImage.getChildren().add(numero);
 		}
 
 		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());

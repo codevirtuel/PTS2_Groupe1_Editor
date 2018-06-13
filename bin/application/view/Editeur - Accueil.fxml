@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" styleClass="fond" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgray;" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.AccueilController">
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgray;" styleClass="fond" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.AccueilController">
    <children>
       <ImageView fitHeight="200.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -25,21 +25,17 @@
             <Insets />
          </VBox.margin>
       </ImageView>
-      <Label styleClass="btTitre" alignment="CENTER" prefHeight="45.0" prefWidth="753.0" text="- Editeur de thème -">
+      <Label alignment="CENTER" prefHeight="45.0" prefWidth="753.0" styleClass="btTitre" text="- Editeur de thème -">
          <font>
-            <Font name="AR CENA" size="30.0" />
+            <Font size="30.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" prefWidth="720.0" spacing="10.0">
          <children>
-            <Button fx:id="creerTheme" styleClass="btReport" mnemonicParsing="false" onAction="#gotoAjoutTheme" prefHeight="70.0" prefWidth="170.0" text="Créer">
+            <Button fx:id="creerTheme" mnemonicParsing="false" onAction="#gotoAjoutTheme" prefHeight="70.0" prefWidth="170.0" styleClass="btReport" text="Créer" />
+            <Button fx:id="modifierSupprimerTheme" mnemonicParsing="false" onAction="#gotoSelecTheme" prefHeight="70.0" prefWidth="170.0" styleClass="btReport" text="Modifier ou supprimer" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="modifierSupprimerTheme" styleClass="btReport" mnemonicParsing="false" onAction="#gotoSelecTheme" prefHeight="70.0" prefWidth="170.0" text="Modifier ou supprimer">
-               <font>
-                  <Font size="11.0" />
+                  <Font size="13.0" />
                </font>
             </Button>
          </children>
@@ -49,14 +45,14 @@
       </HBox>
       <HBox alignment="CENTER" spacing="10.0">
          <children>
-            <Button fx:id="parametres" styleClass="btReport" mnemonicParsing="false" onAction="#gotoParams" prefHeight="50.0" prefWidth="100.0" text="Paramètres">
+            <Button fx:id="parametres" mnemonicParsing="false" onAction="#gotoParams" prefHeight="50.0" prefWidth="100.0" styleClass="btReport" text="Paramètres">
                <font>
-                  <Font size="15.0" />
+                  <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="quitter" styleClass="btReport" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="100.0" text="Quitter">
+            <Button fx:id="quitter" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="100.0" styleClass="btReport" text="Quitter">
                <font>
-                  <Font size="15.0" />
+                  <Font size="13.0" />
                </font>
             </Button>
          </children>

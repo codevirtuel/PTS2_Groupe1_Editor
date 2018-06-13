@@ -23,6 +23,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class AccueilController {
@@ -40,6 +41,7 @@ public class AccueilController {
 
 	@FXML
 	public void initialize() {
+		parametres.setFont(Font.font("Arial Black", 15));
 		Scaler.updateSize(Main.width, vbox);
 	}
 
