@@ -138,18 +138,19 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void creerZoneAssocier() throws IOException {
-			Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
-			editionQuestionsZonesController.idZoneMax++;
-			EditionCreationZonesController.setZone(newZ);
+		questionAModifier.setIntitule(intituleQuestion.getText());
+		Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+		editionQuestionsZonesController.idZoneMax++;
+		EditionCreationZonesController.setZone(newZ);
 		EditionCreationZonesController.questionAssociation = questionAModifier;
-			VBox root = new VBox();
+		VBox root = new VBox();
 
-			root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
-			Scene scene = new Scene(root);
+		root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+		Scene scene = new Scene(root);
 
-			Main.primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-			Main.primaryStage.setScene(scene);
+		Main.primaryStage.setScene(scene);
 	}
 
 	@FXML

@@ -70,13 +70,14 @@ public class SelecThemeController {
 		if (listeThemes.getSelectionModel().getSelectedItem() != null) {
 			String nomThemeSupp = listeThemes.getSelectionModel().getSelectedItem().getText();
 			listeThemes.getItems().remove(listeThemes.getSelectionModel().getSelectedItem());
+			System.out.println(nomThemeSupp.replace("'", "''"));
 			Main.bdd.executeUpdateCmd("DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-					+ nomThemeSupp + "');");
+					+ nomThemeSupp.replace("'", "''") + "');");
 			Main.bdd.executeUpdateCmd("DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-					+ nomThemeSupp + "');");
-			Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + nomThemeSupp + "';");
-			Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + nomThemeSupp + "';");
-			Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + nomThemeSupp + "';");
+					+ nomThemeSupp.replace("'", "''") + "');");
+			Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + nomThemeSupp.replace("'", "''") + "';");
+			Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + nomThemeSupp.replace("'", "''") + "';");
+			Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + nomThemeSupp.replace("'", "''") + "';");
 		}
 	}
 
@@ -111,7 +112,7 @@ public class SelecThemeController {
 		try {
 			ResultSet zonesBD;
 			zonesBD = Main.bdd.executeQueryCmd("SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-					+ theme + "';");
+					+ theme.replace("'", "''") + "';");
 			while (zonesBD.next()) {
 				Zone zoneTmp = new Zone(zonesBD.getInt("ID_ZONE"));
 				ResultSet pointsBD = Main.bdd
@@ -124,7 +125,7 @@ public class SelecThemeController {
 			}
 			ResultSet questionsBD;
 			questionsBD = Main.bdd.executeQueryCmd("SELECT * FROM QUESTION WHERE NOM_THEME='"
-					+ theme + "';");
+					+ theme.replace("'", "''") + "';");
 			while (questionsBD.next()) {
 				Question questionTmp = new Question(questionsBD.getString("INTITULE_QUESTION"));
 				ResultSet repsBD = Main.bdd.executeQueryCmd(
@@ -141,7 +142,7 @@ public class SelecThemeController {
 			e1.printStackTrace();
 		}
 		try {
-			ResultSet themeBD = Main.bdd.executeQueryCmd("SELECT URL_IMAGE FROM THEME WHERE NOM_THEME='"+themeTmp.getNom()+"';");
+			ResultSet themeBD = Main.bdd.executeQueryCmd("SELECT URL_IMAGE FROM THEME WHERE NOM_THEME='"+themeTmp.getNom().replace("'", "''")+"';");
 			themeBD.next();
 			if (themeBD.getString("URL_IMAGE")!=null) {
 				Image imgFond;

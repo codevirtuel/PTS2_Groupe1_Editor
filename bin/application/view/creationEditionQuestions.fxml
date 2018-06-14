@@ -114,7 +114,7 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#quitter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: red;" text="Quitter" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#quitter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: red;" text="Retour" textFill="WHITE">
                <effect>
                   <Lighting diffuseConstant="1.46">
                      <bumpInput>

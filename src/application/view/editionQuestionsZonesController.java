@@ -314,31 +314,31 @@ public class editionQuestionsZonesController {
 			ResultSet listeTheme = Main.bdd.executeQueryCmd("SELECT NOM_THEME FROM THEME;");
 			boolean unuse = true;
 			while (listeTheme.next())
-				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom())
-						&& listeTheme.getString("NOM_THEME").equals(titreTheme.getText())) {
+				if (!listeTheme.getString("NOM_THEME").equals(themeAModifier.getNom().replace("'", "''"))
+						&& listeTheme.getString("NOM_THEME").equals(titreTheme.getText().replace("'", "''"))) {
 					unuse = false;
 					titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 				}
-			if (titreTheme.getText().length() < 2) {
+			if (titreTheme.getText().length() < 2 || titreTheme.getText().length() > 100) {
 				unuse = false;
 				titreTheme.setStyle("-fx-border-color:red;-fx-border-width: 2px;");
 			}
 			if (unuse) {
+				themeAModifier.setNom(titreTheme.getText());
 				titreTheme.setStyle("-fx-border-color:green;-fx-border-width: 1px;");
-				System.out.println(themeAModifier.getUrlImage());
+				System.out.println(themeAModifier.getUrlImage().replace("'", "''"));
 				Main.bdd.executeUpdateCmd(
 						"DELETE FROM POINT WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-								+ themeAModifier.getNom() + "');");
+								+ themeAModifier.getNom().replace("'", "''") + "');");
 				Main.bdd.executeUpdateCmd(
 						"DELETE FROM REPONSE WHERE ID_ZONE IN (SELECT ID_ZONE FROM ZONE WHERE NOM_THEME='"
-								+ themeAModifier.getNom() + "');");
-				Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
-				Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
-				Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom() + "';");
+								+ themeAModifier.getNom().replace("'", "''") + "');");
+				Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
 				// AJOUTER QUERY POUR SAUVEGARDER
-				themeAModifier.setNom(titreTheme.getText());
-				Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeAModifier.getNom() + "','"
-						+ themeAModifier.getUrlImage() + "');");
+				Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeAModifier.getNom().replace("'", "''") + "','"
+						+ themeAModifier.getUrlImage().replace("'", "''") + "');");
 				ResultSet qustsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_QUESTION) FROM QUESTION;");
 				int i = 0;
 				if (qustsDB.next()) {
@@ -347,10 +347,10 @@ public class editionQuestionsZonesController {
 				}
 				int k = i;
 				for (Question qst : themeAModifier.getQuestions()) {
-					Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES (" + (++i) + ",'" + qst.getIntitule() + "','"
-							+ themeAModifier.getNom() + "');");
-					System.out.println("INSERT INTO QUESTION VALUES (" + (i) + ",'" + qst.getIntitule() + "','"
-							+ themeAModifier.getNom() + "');");
+					Main.bdd.executeUpdateCmd("INSERT INTO QUESTION VALUES (" + (++i) + ",'" + qst.getIntitule().replace("'", "''") + "','"
+							+ themeAModifier.getNom().replace("'", "''") + "');");
+					System.out.println("INSERT INTO QUESTION VALUES (" + (i) + ",'" + qst.getIntitule().replace("'", "''") + "','"
+							+ themeAModifier.getNom().replace("'", "''") + "');");
 				}
 				ResultSet pointsDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_POINT) FROM POINT;");
 				i = 0;
@@ -359,7 +359,7 @@ public class editionQuestionsZonesController {
 				}
 				for (Zone zone : themeAModifier.getZones()) {
 					Main.bdd.executeUpdateCmd(
-							"INSERT INTO ZONE VALUES (" + zone.getIndex() + ",'" + themeAModifier.getNom() + "');");
+							"INSERT INTO ZONE VALUES (" + zone.getIndex() + ",'" + themeAModifier.getNom().replace("'", "''") + "');");
 					System.out.println(zone.getPoints().size());
 					for (int l = 0; l < zone.getPoints().size(); l += 2)
 						Main.bdd.executeUpdateCmd("INSERT INTO POINT VALUES (" + (++i) + "," + zone.getPoints().get(l)
