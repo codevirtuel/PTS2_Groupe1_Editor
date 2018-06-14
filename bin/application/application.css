@@ -43,3 +43,18 @@
 	-fx-background-image: url("data/fonds/fond2.jpg");
 	-fx-background-size: 100%;
 }
+
+.fond3 {
+	-fx-background-image: url("data/fonds/fond3.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond4 {
+	-fx-background-image: url("data/fonds/fond4.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond5 {
+	-fx-background-image: url("data/fonds/fond5.png");
+	-fx-background-size: 100%;
+}

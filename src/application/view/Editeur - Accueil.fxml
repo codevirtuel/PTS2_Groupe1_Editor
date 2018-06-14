@@ -32,10 +32,14 @@
       </Label>
       <HBox alignment="CENTER" prefWidth="720.0" spacing="10.0">
          <children>
-            <Button fx:id="creerTheme" mnemonicParsing="false" onAction="#gotoAjoutTheme" prefHeight="70.0" prefWidth="170.0" styleClass="btReport" text="Créer" />
+            <Button fx:id="creerTheme" mnemonicParsing="false" onAction="#gotoAjoutTheme" prefHeight="70.0" prefWidth="170.0" styleClass="btReport" text="Créer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
             <Button fx:id="modifierSupprimerTheme" mnemonicParsing="false" onAction="#gotoSelecTheme" prefHeight="70.0" prefWidth="170.0" styleClass="btReport" text="Modifier ou supprimer" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font size="13.0" />
+                  <Font size="14.0" />
                </font>
             </Button>
          </children>
@@ -47,12 +51,12 @@
          <children>
             <Button fx:id="parametres" mnemonicParsing="false" onAction="#gotoParams" prefHeight="50.0" prefWidth="100.0" styleClass="btReport" text="Paramètres">
                <font>
-                  <Font size="13.0" />
+                  <Font size="12.0" />
                </font>
             </Button>
             <Button fx:id="quitter" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="100.0" styleClass="btReport" text="Quitter">
                <font>
-                  <Font size="13.0" />
+                  <Font size="14.0" />
                </font>
             </Button>
          </children>
