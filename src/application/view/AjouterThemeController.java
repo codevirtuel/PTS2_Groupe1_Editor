@@ -126,15 +126,26 @@ public class AjouterThemeController {
 						unuse = false;
 						nomTheme.setStyle(BORDURE_ROUGE);
 					}
-				if (themeACreer.getNom().length() < 2) {
+				if (themeACreer.getNom().length() < 2 || themeACreer.getNom().length() > 100) {
 					unuse = false;
 					nomTheme.setStyle(BORDURE_ROUGE);
 				}
 				if (unuse) {
 					nomTheme.setStyle(BORDURE_VERTE);
 					try {
-						Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeACreer.getNom() + "','"
-								+ themeACreer.getUrlImage() + "');");
+						System.out.println(themeACreer.getNom().replace("'", "''"));
+						Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeACreer.getNom().replace("'", "''") + "','"
+								+ themeACreer.getUrlImage().replace("'", "''") + "');");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					ResultSet zonesDB;
+					try {
+						zonesDB = Main.bdd.executeQueryCmd("SELECT MAX(ID_ZONE) FROM ZONE;");
+						editionQuestionsZonesController.idZoneMax = 1;
+						if (zonesDB.next()) {
+							editionQuestionsZonesController.idZoneMax = zonesDB.getInt("MAX(ID_ZONE)") + 1;
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}

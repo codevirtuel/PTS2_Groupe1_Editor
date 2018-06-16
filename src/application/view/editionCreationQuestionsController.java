@@ -45,8 +45,10 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void initialize() {
-		sauvegardeQuestion = new Question(questionAModifier.getIntitule());
-		sauvegardeQuestion.setReponses(questionAModifier.getReponses());
+		if(!questionAModifier.getIntitule().equals("")) {
+			sauvegardeQuestion = new Question(questionAModifier.getIntitule());
+			sauvegardeQuestion.setReponses(questionAModifier.getReponses());
+		}
 		double height = paneImage.getPrefHeight(), width = paneImage.getPrefWidth(), rapport = height / width;
 		if (editionQuestionsZonesController.getThemeAModifier().getImageFond().getWidth()
 				* rapport > editionQuestionsZonesController.getThemeAModifier().getImageFond().getHeight()) {
@@ -79,10 +81,8 @@ public class editionCreationQuestionsController {
 					(int) (Math.random() * 150 + 100)));
 			zone.setStroke(Color.BLACK);
 			zone.setStrokeWidth(1);
-			Label numero = new Label("" + zone.getIndex());
 			System.out.println(zone.getBoundsInLocal());
 			paneImage.getChildren().add(zone);
-			paneImage.getChildren().add(numero);
 		}
 
 		System.out.println(paneImage.getPrefWidth() + ";" + paneImage.getPrefHeight());
@@ -138,18 +138,19 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void creerZoneAssocier() throws IOException {
-			Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
-			editionQuestionsZonesController.idZoneMax++;
-			EditionCreationZonesController.setZone(newZ);
+		questionAModifier.setIntitule(intituleQuestion.getText());
+		Zone newZ = new Zone(editionQuestionsZonesController.idZoneMax);
+		editionQuestionsZonesController.idZoneMax++;
+		EditionCreationZonesController.setZone(newZ);
 		EditionCreationZonesController.questionAssociation = questionAModifier;
-			VBox root = new VBox();
+		VBox root = new VBox();
 
-			root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
-			Scene scene = new Scene(root);
+		root = FXMLLoader.load(getClass().getResource("Creation Zone.fxml"));
+		Scene scene = new Scene(root);
 
-			Main.primaryStage.setResizable(false);
+		Main.primaryStage.setResizable(false);
 
-			Main.primaryStage.setScene(scene);
+		Main.primaryStage.setScene(scene);
 	}
 
 	@FXML
@@ -177,8 +178,13 @@ public class editionCreationQuestionsController {
 
 	@FXML
 	public void quitter() throws IOException {
-		questionAModifier.setIntitule(sauvegardeQuestion.getIntitule());
-		questionAModifier.setReponses(sauvegardeQuestion.getReponses());
+		if(sauvegardeQuestion != null) {
+			questionAModifier.setIntitule(sauvegardeQuestion.getIntitule());
+			questionAModifier.setReponses(sauvegardeQuestion.getReponses());
+		}
+		else {
+			editionQuestionsZonesController.getThemeAModifier().getQuestions().remove(questionAModifier);
+		}
 		VBox root = new VBox();
 
 		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));

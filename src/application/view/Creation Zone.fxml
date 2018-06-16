@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -17,12 +18,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="5.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.EditionCreationZonesController">
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" spacing="5.0" style="-fx-background-color: lightgrey;" styleClass="fond4" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.EditionCreationZonesController">
    <children>
-      <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="640.0" text="- Création / Edition d'une zone -" textAlignment="CENTER">
+      <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="640.0" styleClass="btAutre" text="- Création / Edition d'une zone -" textAlignment="CENTER">
          <font>
-            <Font name="Gabriola" size="33.0" />
+            <Font name="Gabriola" size="36.0" />
          </font>
+         <effect>
+            <DropShadow color="#515151" />
+         </effect>
       </Label>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="640.0" spacing="5.0">
          <children>
@@ -35,18 +39,21 @@
                      </font>
                   </Label>
                   <ListView fx:id="points" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="230.0" />
-                  <Button fx:id="btNewZone" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#creerNewZone" prefHeight="25.0" prefWidth="200.0" text="Créer une nouvelle zone">
+                  <Button fx:id="btNewZone" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#creerNewZone" prefHeight="25.0" prefWidth="200.0" styleClass="btReport" text="Créer une nouvelle zone" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Label fx:id="txtErreur" alignment="CENTER" textAlignment="CENTER" textFill="#5e1010" underline="true" wrapText="true">
+                  <Label fx:id="txtErreur" alignment="CENTER" style="-fx-background-color: rgba(190,140,140,0.3);" textAlignment="CENTER" textFill="#c30b0b" underline="true" wrapText="true">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font name="Curlz MT" size="12.0" />
                      </font>
+                     <effect>
+                        <DropShadow color="WHITE" />
+                     </effect>
                   </Label>
                </children>
                <HBox.margin>
@@ -57,23 +64,46 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="640.0">
          <children>
-            <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" text="/!\ Pour éviter tout conflit lors de l'utilisation de ce thème, veuillez ne pas créer de zones superposée. Sauf si telle est votre intention." textAlignment="JUSTIFY" textFill="#a10000" wrapText="true">
+            <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: rgba(150,120,120,0.4);" text="/!\ Pour éviter tout conflit lors de l'utilisation de ce thème, veuillez ne pas créer de zones superposée. Sauf si telle est votre intention." textAlignment="JUSTIFY" textFill="#940000" wrapText="true">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
                <font>
                   <Font name="Bookman Old Style" size="12.0" />
                </font>
+               <effect>
+                  <DropShadow color="#ffe6e6" />
+               </effect>
             </Label>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: lightgreen;" text="Valider">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#valider" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: rgb(0,180,130);" text="Valider" textFill="WHITE">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
+               <effect>
+                  <Lighting diffuseConstant="1.44">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#quitter" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Quitter">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#quitter" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Retour" textFill="WHITE">
                <HBox.margin>
                   <Insets right="5.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <effect>
+                  <Lighting diffuseConstant="1.37">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect></Button>
          </children>
       </HBox>
    </children>

@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgray;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.parametresController">
+<VBox fx:id="vbox" alignment="CENTER" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: lightgray;" styleClass="fond5" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.parametresController">
    <children>
       <Label alignment="CENTER" prefHeight="53.0" prefWidth="837.0" text="- Paramètres -">
          <font>
             <Font name="AR BERKLEY" size="36.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#797979" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <effect>
+            <DropShadow />
+         </effect>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <Label prefHeight="35.0" prefWidth="230.0" text="Taille de la fenêtre :">
+            <Label prefHeight="35.0" prefWidth="230.0" text="Taille de la fenêtre :" textFill="WHITE">
                <font>
                   <Font name="AR BERKLEY" size="24.0" />
                </font>
                <padding>
                   <Insets right="20.0" />
                </padding>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Label>
-            <ChoiceBox prefHeight="20.0" prefWidth="200.0" />
+            <ComboBox fx:id="resolutions" prefHeight="20.0" prefWidth="200.0">
+               <effect>
+                  <Reflection />
+               </effect></ComboBox>
          </children>
          <padding>
             <Insets bottom="20.0" top="40.0" />
@@ -34,24 +58,36 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="179.0" prefWidth="200.0">
          <children>
-            <Label prefHeight="35.0" prefWidth="120.0" text="Volume :">
+            <Label prefHeight="35.0" prefWidth="120.0" text="Volume :" textFill="WHITE">
                <font>
                   <Font name="AR BERKLEY" size="24.0" />
                </font>
                <padding>
                   <Insets right="20.0" />
                </padding>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Label>
-            <Label prefHeight="17.0" prefWidth="24.0" text="x%">
+            <Label fx:id="currentVolume" prefHeight="18.0" prefWidth="48.0" text="x%" textFill="#ae0000">
                <padding>
                   <Insets right="5.0" />
                </padding>
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
             </Label>
-            <Slider prefWidth="200.0" />
-            <Label prefHeight="17.0" prefWidth="36.0" text="100%">
+            <Slider fx:id="slider" onMouseClicked="#updateVolume" onMouseDragged="#updateVolume" prefWidth="200.0">
+               <effect>
+                  <Reflection fraction="0.55" topOpacity="0.33" />
+               </effect></Slider>
+            <Label prefHeight="18.0" prefWidth="46.0" text="100%" textFill="#005b4b">
                <padding>
                   <Insets right="5.0" />
                </padding>
+               <effect>
+                  <DropShadow color="WHITE" />
+               </effect>
             </Label>
          </children>
          <padding>
@@ -60,8 +96,35 @@
       </HBox>
       <HBox fx:id="hbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="200.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: gray;" text="Sauvegarder" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red;" text="Annuler" />
+            <Button mnemonicParsing="false" onMouseClicked="#sauvegarder" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: green; -fx-background-radius: 30%;" text="Sauvegarder" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.37">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect></Button>
+            <Button mnemonicParsing="false" onMouseClicked="#goToAccueil" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: red; -fx-background-radius: 30%;" text="Annuler" textFill="WHITE">
+               <effect>
+                  <Lighting diffuseConstant="1.29">
+                     <bumpInput>
+                        <Reflection>
+                           <input>
+                              <Shadow />
+                           </input>
+                        </Reflection>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect></Button>
          </children>
          <padding>
             <Insets top="50.0" />

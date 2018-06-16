@@ -3,7 +3,7 @@
     src: url("data/font/traveling_typewriter/TravelingTypewriter.ttf");
 }
 @font-face {
-    src: url("data/font/broken_heart/1942.ttf");
+    src: url("1942.ttf");
 }
 @font-face {
     src: url("data/font/slow_life/Slow_Life.ttf");
@@ -21,7 +21,12 @@
 }
 
 .btReport {
-	-fx-font-family: "1942 report" , sans-serif;
+	-fx-background-color: linear-gradient(rgb(50,50,60),rgba(130,130,150,0.7),rgb(50,50,60));
+	-fx-background-radius: 30%;
+}
+
+.btRetour {
+	-fx-background-color: linear-gradient(rgb(230,50,50),rgba(250,190,190,0.7),rgb(230,50,50));
 	-fx-background-radius: 30%;
 }
 
@@ -31,5 +36,25 @@
 
 .fond {
 	-fx-background-image: url("data/fonds/fond.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond2 {
+	-fx-background-image: url("data/fonds/fond2.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond3 {
+	-fx-background-image: url("data/fonds/fond3.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond4 {
+	-fx-background-image: url("data/fonds/fond4.jpg");
+	-fx-background-size: 100%;
+}
+
+.fond5 {
+	-fx-background-image: url("data/fonds/fond5.png");
 	-fx-background-size: 100%;
 }
