@@ -335,6 +335,7 @@ public class editionQuestionsZonesController {
 								+ themeAModifier.getNom().replace("'", "''") + "');");
 				Main.bdd.executeUpdateCmd("DELETE FROM ZONE WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
 				Main.bdd.executeUpdateCmd("DELETE FROM QUESTION WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
+				Main.bdd.executeUpdateCmd("DELETE FROM JOUEUR WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
 				Main.bdd.executeUpdateCmd("DELETE FROM THEME WHERE NOM_THEME='" + themeAModifier.getNom().replace("'", "''") + "';");
 				// AJOUTER QUERY POUR SAUVEGARDER
 				Main.bdd.executeUpdateCmd("INSERT INTO THEME VALUES ('" + themeAModifier.getNom().replace("'", "''") + "','"
