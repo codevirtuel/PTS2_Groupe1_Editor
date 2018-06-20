@@ -44,7 +44,8 @@ public class Main extends Application {
 		}
 		volume = Double.parseDouble(ini.get("other", "volume"));
 		// Clip clip = AudioSystem.getClip();
-		clip = new AudioClip(getClass().getResource("data/musiques/MiamiPath.mp3").toString());
+		clip = new AudioClip(new File("src/application/data/musiques/MiamiPath.mp3").toURI().toString());
+		//clip = new AudioClip(getClass().getClassLoader().getResource("data/musiques/MiamiPath.mp3").toExternalForm());
 		clip.play(volume / 100);
 		clip.setCycleCount(Integer.MAX_VALUE);
 		try {
