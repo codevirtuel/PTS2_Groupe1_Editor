@@ -258,7 +258,6 @@ public class EditionCreationZonesController {
 		zoneAModifier.getPoints().clear();
 		zoneAModifier.getPoints().addAll(sauvegardeZone.getPoints());
 		if(questionAssociation == null) {
-			editionQuestionsZonesController.getThemeAModifier().getZones().remove(zoneAModifier);
 		VBox root = new VBox();
 
 		root = FXMLLoader.load(getClass().getResource("editionQuestionsZones.fxml"));
