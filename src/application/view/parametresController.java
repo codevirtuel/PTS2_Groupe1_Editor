@@ -39,10 +39,12 @@ public class parametresController {
 	HBox hbox;
 	
 	@FXML
-	public void initialize() {
+	public void initialize() throws InvalidFileFormatException, IOException {
 		Scaler.updateSize(Main.width,vbox);
 		populateResolutions();
+		loadVolume();
 		slider.setValue(Main.volume);
+		updateVolume();
 	}
 	
 	@FXML 
@@ -91,6 +93,11 @@ public class parametresController {
 	public void updateVolume() {
 		Main.volume = Math.round(slider.getValue());
 		currentVolume.setText(Math.round(Main.volume)+"%");
+	}
+	
+	public void loadVolume() throws InvalidFileFormatException, IOException {
+		Ini save = new Ini(new File("options.ini"));
+		Main.volume = save.get("other","volume",double.class);
 	}
 	
 	@FXML
